@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AMAYZA ID MAKER - EMPLOYEE ID</title>
+<style>
+:root{
+  --primary:#b91c1c;
+  --secondary:#d99a22;
+  --accent:#ffffff;
+  --ink:#111827;
+  --muted:#6b7280;
+  --bg:#f3f4f6;
+  --paperW:215.9mm;
+  --paperH:279.4mm;
+  --idW:2.125in;
+  --idH:3.375in;
+  --setsPerRow:2;
+  --cutGap:6mm;
+  --cardGap:3mm;
+  --radius:12px;
+  --photoW:42%;
+  --photoH:34%;
+  --nameScale:1;
+  --roleScale:1;
+  --detailScale:1;
+  --idScale:1;
+  --policyScale:1;
+}
+*{box-sizing:border-box}
+html,body,.sheet,.sheet *,.idCard,.idCard *{
+  -webkit-print-color-adjust:exact!important;
+  print-color-adjust:exact!important;
+  color-adjust:exact!important;
+  forced-color-adjust:none;
+}
+body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--ink)}
+body.access-locked header,body.access-locked main{filter:blur(3px);pointer-events:none;user-select:none}
+.accessOverlay{position:fixed;inset:0;background:linear-gradient(135deg,#111827,#7f1d1d);z-index:9999;display:flex;align-items:center;justify-content:center;padding:22px}
+body:not(.access-locked) .accessOverlay{display:none}
+.accessCard{width:min(440px,94vw);background:#fff;border-radius:24px;padding:24px;box-shadow:0 35px 90px rgba(0,0,0,.45);border:3px solid var(--secondary);text-align:center}
+.accessCard h2{margin:0 0 8px;font-size:22px}
+.accessCard p{font-size:13px;color:#4b5563;font-weight:800;line-height:1.35}
+.accessCard input{width:100%;padding:13px;border:2px solid #d1d5db;border-radius:10px;text-align:center;font-size:16px;font-weight:900;letter-spacing:.08em}
+.accessCard button{width:100%;margin-top:10px}
+.accessError{display:none;margin-top:10px;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;border-radius:12px;padding:9px;font-size:12px;font-weight:900}
+.accessError.show{display:block}
+.accessLegal{font-size:11px;color:#6b7280;line-height:1.35;margin-top:14px;border-top:1px solid #e5e7eb;padding-top:12px}
+header{position:sticky;top:0;z-index:20;background:#111827;color:#fff;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 4px 18px rgba(0,0,0,.2)}
+header h1{font-size:18px;margin:0;line-height:1.2}
+header .actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+button,.fileLabel{border:0;border-radius:10px;padding:10px 13px;font-weight:850;cursor:pointer;background:var(--secondary);color:#111827;box-shadow:0 2px 0 rgba(0,0,0,.18)}
+button.secondary{background:#fff}
+button.danger{background:#fee2e2;color:#991b1b}
+button.small{padding:7px 10px;font-size:12px;border-radius:8px}
+.modeBadge{display:inline-flex;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:950;background:#374151;color:#fff}
+.modeBadge.admin{background:#166534}
+.app{display:grid;grid-template-columns:minmax(400px,540px) 1fr;gap:18px;padding:18px;align-items:start}
+.panel{background:#fff;border-radius:18px;padding:16px;box-shadow:0 10px 30px rgba(17,24,39,.08);border:1px solid #e5e7eb}
+.panel h2{font-size:16px;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+.panel h2 span{background:var(--primary);color:#fff;border-radius:999px;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.full{grid-column:1/-1}
+label{font-size:12px;color:#374151;font-weight:800;display:block;margin-bottom:5px}
+input,select,textarea{width:100%;padding:9px 10px;border:1px solid #d1d5db;border-radius:10px;background:#fff;font-size:13px;outline-color:var(--primary)}
+textarea{resize:vertical;min-height:54px}
+input[type=color]{height:40px;padding:4px}
+input[type=range]{padding:0}
+.hint{font-size:12px;color:var(--muted);line-height:1.35;margin-top:6px}
+.quickBox{background:#fff7ed;border:1px solid #fed7aa;border-radius:16px;padding:12px;margin:12px 0;font-size:12px;line-height:1.4;color:#374151;font-weight:750}
+.uploadBox{border:2px dashed #f59e0b;border-radius:16px;background:#fffbeb;padding:12px;transition:.18s}
+.activeEdit{border-color:var(--primary)!important;box-shadow:0 0 0 4px color-mix(in srgb,var(--secondary) 42%,transparent),0 0 22px color-mix(in srgb,var(--primary) 25%,transparent)!important;animation:editGlow 1.4s ease-in-out infinite}
+@keyframes editGlow{0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
+.setButtons{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 10px}.setBtn{background:#f3f4f6;border:2px solid #e5e7eb;box-shadow:none}.setBtn.active{background:var(--secondary);border-color:var(--primary);box-shadow:0 0 0 3px rgba(185,28,28,.12)}
+.fieldCard{border:1px solid #e5e7eb;background:#f9fafb;border-radius:14px;padding:10px}
+.fieldCard .mini{margin-top:7px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.previewPanel{position:sticky;top:72px;min-width:0}
+.previewTop{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.scaleBox{display:flex;gap:8px;align-items:center;font-size:12px;color:#6b7280;flex-wrap:wrap}
+.paperStage{overflow:auto;background:#cbd5e1;border-radius:18px;padding:22px;max-height:calc(100vh - 150px);border:1px solid #94a3b8}
+.sheet{width:var(--paperW);min-height:var(--paperH);background:#fff;margin:auto;padding:10mm;display:grid;grid-template-columns:repeat(var(--setsPerRow), calc((var(--idW) * 2) + var(--cardGap)));justify-content:start;align-content:start;gap:var(--cutGap);box-shadow:0 15px 45px rgba(0,0,0,.25);transform-origin:top center}
+.idSet{display:grid;grid-template-columns:var(--idW) var(--idW);gap:var(--cardGap);break-inside:avoid;position:relative}
+.idSet:before{content:"CUT / FOLD";position:absolute;left:50%;top:-10px;transform:translateX(-50%);font-size:7px;font-weight:900;color:#6b7280;background:#fff;padding:1px 5px;border-radius:99px;z-index:2}
+.idSet:after{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:1.5px dashed #9ca3af;transform:translateX(calc(var(--cardGap) / -2));pointer-events:none}
+.idCard{width:var(--idW);height:var(--idH);background:#fff;border:1px solid #d1d5db;border-radius:var(--radius);overflow:hidden;position:relative;break-inside:avoid;font-family:Arial,Helvetica,sans-serif}
+.front{background:var(--accent)}
+.back{background:var(--accent)}
+.frontBg{position:absolute;inset:0;background:linear-gradient(135deg,var(--secondary) 0%,color-mix(in srgb,var(--secondary) 75%,#fff) 18%,transparent 18%),linear-gradient(155deg,transparent 0 73%,var(--secondary) 74% 100%);opacity:1}
+.frontBg:after{content:"";position:absolute;left:-12%;top:8%;width:130%;height:38%;border-top:3px solid rgba(255,255,255,.9);border-radius:50%;transform:rotate(-10deg)}
+.themeLPU{--primary:#8b0000;--secondary:#facc15}
+.themeAteneo{--primary:#0f3d91;--secondary:#ffffff}
+.themeAteneo .frontBg{background:linear-gradient(180deg,#0f3d91 0 20%,#fff 20% 78%,#e6f0ff 78% 100%)}
+.themeAteneo .frontBg:after{border-color:#0f3d91;opacity:.18}
+.themeMapua{--primary:#b91c1c;--secondary:#f59e0b}
+.themeMapua .frontBg{background:linear-gradient(135deg,#b91c1c 0 18%,#fff 18% 76%,#f59e0b 76% 100%)}
+.themePUP{--primary:#7f1d1d;--secondary:#facc15}
+.themePUP .frontBg{background:linear-gradient(135deg,#7f1d1d 0 20%,#fff 20% 75%,#facc15 75% 100%)}
+.themeAmayza{--primary:#b91c1c;--secondary:#d99a22}
+.themeClean{--primary:#111827;--secondary:#e5e7eb}
+.themeClean .frontBg{background:linear-gradient(180deg,var(--primary) 0 18%,#fff 18% 100%)}
+.themeClean .frontBg:after{display:none}
+.themeGreen{--primary:#047857;--secondary:#34d399}
+.themeBlackGold{--primary:#111827;--secondary:#d4af37}
+.logoRow{position:absolute;top:7px;left:8px;right:8px;height:34px;display:flex;justify-content:space-between;gap:8px;align-items:center;z-index:1}
+.logoSlot{height:32px;max-width:45%;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:1000;text-align:center;line-height:1;color:var(--primary);text-transform:uppercase}
+.logoSlot img{max-width:100%;max-height:100%;object-fit:contain}
+.typeBadge{position:absolute;top:45px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;border-radius:999px;padding:4px 10px;font-size:7.4px;font-weight:1000;text-transform:uppercase;letter-spacing:.04em;z-index:2;white-space:nowrap}
+.photo{position:absolute;left:50%;top:62px;width:var(--photoW);height:var(--photoH);background:#e5e7eb;border:3px solid #fff;box-shadow:0 8px 16px rgba(0,0,0,.18);overflow:hidden;z-index:2;transform:translateX(-50%)}
+.photo.rounded{border-radius:18px}
+.photo.circle{border-radius:50%}
+.photo.square{border-radius:6px}
+.photo img{width:100%;height:100%;object-fit:cover}
+.signSpace{position:absolute;left:28px;right:28px;top:178px;height:17px;border-bottom:1.4px solid #111827;z-index:2}
+.nameBlock{position:absolute;left:10px;right:10px;top:198px;text-align:center;z-index:2}
+.personName{font-size:calc(12.5px * var(--nameScale));font-weight:1000;line-height:.95;text-transform:uppercase;color:#111827;letter-spacing:.02em}
+.branchUnderName{font-size:calc(6.8px * var(--detailScale));font-weight:1000;color:var(--primary);text-transform:uppercase;margin-top:3px;line-height:1.05}
+.role{font-size:calc(6.3px * var(--roleScale));font-weight:1000;text-transform:uppercase;margin-top:4px;color:#111827;line-height:1.05}
+.partnerBrand{font-size:calc(6.6px * var(--detailScale));font-weight:1000;color:var(--primary);text-transform:uppercase;margin-top:3px;line-height:1.05}
+.addressBox{position:absolute;left:10px;right:10px;bottom:38px;text-align:center;z-index:2}
+.addressBox b{display:block;text-align:left;border-bottom:1px solid #111827;font-size:6px;text-transform:uppercase;margin-bottom:3px}
+.address{font-size:calc(6.8px * var(--detailScale));font-weight:1000;line-height:1.1;text-transform:uppercase}
+.idNo{position:absolute;left:22px;right:22px;bottom:10px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.75);color:#fff;text-align:center;font-size:calc(8px * var(--idScale));font-weight:1000;padding:4px;text-transform:uppercase;z-index:2}
+.themeClean .idNo,.themeAteneo .idNo{background:var(--primary)}
+.backBrand{text-align:center;padding:8px 8px 4px;color:var(--primary);font-size:22px;font-weight:1000;letter-spacing:1px;line-height:.85}
+.backBrand span{display:block;color:#111827;font-size:7px;letter-spacing:2px;margin-top:2px}
+.govNums{background:var(--secondary);padding:5px 9px;font-size:7px;font-weight:1000;line-height:1.35;color:#111827}
+.emergencyTitle{margin:4px 8px 0;text-align:center;border-top:1px solid #111827;border-bottom:1px solid #111827;padding:2px;font-size:5.8px;font-weight:1000}
+.emergencyName{margin:3px 8px;border:1.5px solid var(--secondary);text-align:center;font-size:8px;font-weight:900;padding:3px;text-transform:uppercase}
+.policy{font-size:calc(5.3px * var(--policyScale));text-align:center;line-height:1.18;padding:4px 9px;color:#111827}
+.signRow{display:flex;justify-content:space-around;margin:2px 8px}
+.signBox{text-align:center;font-size:4.8px;width:43%;font-weight:800}
+.signLine{height:12px;border-bottom:1px solid #111827;margin-bottom:2px}
+.validity{position:absolute;bottom:8px;left:8px;right:8px;text-align:center;font-size:7px;font-weight:1000}
+.tableWrap{max-height:34vh;overflow:auto;border:1px solid #e5e7eb;border-radius:14px;margin-top:10px}
+table{border-collapse:collapse;width:100%;font-size:12px;background:#fff}
+th{position:sticky;top:0;background:#f9fafb;z-index:1;text-align:left;color:#374151;font-size:11px;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid #e5e7eb;padding:8px}
+td{border-bottom:1px solid #f3f4f6;padding:7px;vertical-align:middle}
+.editingRow{background:#fff7ed!important}
+.adminLockedNotice{display:none;margin-top:10px;background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;border-radius:12px;padding:10px;font-size:12px;font-weight:850;line-height:1.35}
+body.admin-locked .adminLockedNotice{display:block}
+.modalOverlay{position:fixed;inset:0;background:rgba(17,24,39,.62);display:none;align-items:center;justify-content:center;padding:18px;z-index:120}
+.modalOverlay.show{display:flex}
+.modal{width:min(720px,96vw);background:#fff;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.35);overflow:hidden;border:1px solid #e5e7eb}
+.modalHead{background:#111827;color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.modalHead h2{margin:0;font-size:18px}
+.modalBody{padding:18px;line-height:1.45;font-size:14px}
+.protectionBox{border:1px solid #fecaca;background:#fff7ed;border-radius:14px;padding:12px;margin:10px 0}
+.protectionBox b{color:#991b1b}
+.aboutGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.aboutGrid div{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:10px}
+.toast{position:fixed;right:18px;bottom:18px;background:#111827;color:#fff;padding:12px 14px;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,.2);opacity:0;pointer-events:none;transform:translateY(10px);transition:.2s;z-index:99;font-size:13px}
+.toast.show{opacity:1;transform:translateY(0)}
+
+.selectedSet{
+  outline:4px solid var(--primary);
+  outline-offset:3px;
+  border-radius:16px;
+  animation:selectedPulse 1.15s ease-in-out infinite;
+}
+@keyframes selectedPulse{
+  0%,100%{filter:drop-shadow(0 0 0 rgba(185,28,28,.15));transform:scale(1)}
+  50%{filter:drop-shadow(0 0 14px rgba(185,28,28,.45));transform:scale(1.015)}
+}
+.setButtons{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+.setBtn{background:#f3f4f6;border:2px solid #e5e7eb;box-shadow:none}
+.setBtn.active{background:var(--secondary);border-color:var(--primary);box-shadow:0 0 0 3px rgba(185,28,28,.12)}
+.emptySheetNote{grid-column:1/-1;border:2px dashed #cbd5e1;border-radius:18px;min-height:120px;display:flex;align-items:center;justify-content:center;text-align:center;color:#64748b;font-weight:900;background:#f8fafc;padding:20px}
+@media print{.emptySheetNote{display:none!important}.selectedSet{outline:none!important;animation:none!important;filter:none!important;transform:none!important}}
+
+@media(max-width:1100px){.app{grid-template-columns:1fr}.previewPanel{position:static}.paperStage{max-height:none}}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important;forced-color-adjust:none!important}
+  body{background:#fff!important}
+  header,.leftPanel,.previewTop,.toast,.accessOverlay{display:none!important}
+  .app{display:block;padding:0}
+  .previewPanel{position:static;padding:0;box-shadow:none;border:0}
+  .paperStage{padding:0;overflow:visible;background:#fff;border:0;border-radius:0;max-height:none}
+  .sheet{box-shadow:none;margin:0;transform:none!important;width:var(--paperW)!important;min-height:var(--paperH)!important;page-break-after:always}
+  @page{size:auto;margin:0}
+}
+</style>
+
+<style id="vg-one-index-child-fix">
+.loginOverlay,.accessOverlay{display:none!important}
+body.locked header,body.locked main,
+body.access-locked header,body.access-locked main{
+  filter:none!important;
+  pointer-events:auto!important;
+  user-select:auto!important;
+}
+</style>
+
+<style>
+:root{--primary:#171717;--secondary:#d4af37;--bg:#f4f5f7}
+.themePerfume,.themeBeverage{--primary:inherit;--secondary:inherit}
+#accessOverlay,#aboutBtn,#adminBtn,#masterBtn,#modeBadge,.protectionBox,.adminLockedNotice{display:none!important}
+header{background:#fff;color:#171717;border-bottom:1px solid #ddd}header h1{font-size:18px}h2{font-size:16px}label,input,textarea,select,button{font-size:14px}
+button{background:var(--primary);color:white}button.secondary{background:#fff;color:#171717;border-color:#ddd}
+.front .logoRow{background:rgba(255,255,255,.96);border-radius:3px;height:37px;padding:3px}.logoSlot{max-width:58%}.logoSlot img{max-height:30px}
+.signSpace img{max-width:95%;max-height:100%;object-fit:contain}
+@media(max-width:760px){.app{display:block}.panel{margin-bottom:16px}.paperStage{overflow:auto}header .actions{gap:6px}header{position:static}}
+</style></head>
+<body class="admin-">
+<div class="accessOverlay" id="accessOverlay">
+<form class="accessCard" id="accessForm">
+<h2>AMAYZA ID MAKER ACCESS</h2>
+<p>HR-Friendly Employee ID System<br>For authorized Amayza Group staff only.</p>
+<label for="accessPassword">Enter staff password</label>
+<input id="accessPassword" type="password" autocomplete="off" placeholder="Password" autofocus>
+<button type="submit">Open ID Maker</button>
+<div class="accessError" id="accessError">Wrong password. Please ask your supervisor for the official password.</div>
+<div class="accessLegal">This ID maker is for Amayza use only and covered by company confidentiality/NDA expectations.</div>
+</form>
+</div>
+
+<header>
+<h1>🪪 AMAYZA ID MAKER - EMPLOYEE ID</h1>
+<div class="actions">
+<span class="modeBadge" id="modeBadge">Staff Mode</span>
+<button class="secondary" id="aboutBtn">About</button>
+<button class="secondary" id="adminBtn">Admin Unlock</button>
+<button class="secondary" id="masterBtn">Master Control</button>
+<button id="printBtn">I-print Ito</button><button id="pdfBtn">Save as PDF</button><button id="jpgBtn" type="button">Download ID JPG</button>
+<button class="secondary" id="saveBtn">Save File</button>
+<label class="fileLabel" for="importFile">Import File</label>
+<input id="importFile" type="file" accept="application/json" hidden>
+</div>
+</header>
+
+<main class="app">
+<section class="panel leftPanel">
+
+<h2><span>1</span> ID set list / piliin muna ang set</h2>
+<div class="quickBox">
+<b>Simple flow:</b> Click <b>Add New Set</b> first. It will create AMA-001 / TNP-001 / PAR-001 based on type. Click again for the next number.
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0">
+<button id="addIdTopBtn" type="button">Add New Set</button>
+<button class="secondary" id="newBlankTopBtn" type="button">Clear Controls</button>
+</div>
+<div class="setButtons" id="setButtons"></div>
+<div class="tableWrap" style="margin-bottom:16px">
+<table>
+<thead><tr><th>Set</th><th>No.</th><th>Name</th><th>Type</th><th>Action</th></tr></thead>
+<tbody id="idRows"></tbody>
+</table>
+</div>
+
+<h2><span>2</span> Upload photos/logos</h2>
+<div class="uploadBox">
+<div class="controls">
+<div class="full"><label>Employee / Partner Picture</label><input id="photoUpload" type="file" accept="image/*"><div class="hint">Picture is centered on the ID. This area glows while editing.</div></div>
+<div><label>Photo width (%)</label><input id="photoWidth" type="range" min="30" max="58" step="1" value="42"></div>
+<div><label>Photo height (%)</label><input id="photoHeight" type="range" min="24" max="46" step="1" value="34"></div>
+<div><label>Employee signature</label><input id="signatureUpload" type="file" accept="image/*"></div><div><label>Brand Logo</label><input id="amayzaLogoUpload" type="file" accept="image/*"></div>
+<div><label>Additional / Branch Logo</label><input id="schoolLogoUpload" type="file" accept="image/*"></div>
+<div class="full" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+<button class="secondary" id="downloadTemplateBtn" type="button">Download ID Format Excel</button>
+<label class="fileLabel" for="idExcelUpload">Upload Filled Excel/CSV</label>
+<input id="idExcelUpload" type="file" accept=".csv,.txt,.xlsx" hidden>
+</div>
+<div class="full hint">Excel upload imports text fields. Photos and logos are uploaded here separately. For offline browser import, save the Excel file as CSV UTF-8 before uploading.</div>
+</div>
+</div>
+
+<h2 style="margin-top:16px"><span>3</span> Edit selected ID</h2>
+<div class="quickBox" id="editingNotice">Currently editing: Live Draft</div>
+<div class="controls">
+<div><label>ID Type / Indicator</label><select id="idType"><option>Employee</option><option>Tenant Partner</option><option>Partner</option></select></div>
+<div><label>Auto ID No. / Editable</label><input id="idNo" value="AMA-001"></div>
+
+<div class="fieldCard full">
+<label>Name</label><input id="fullName" value="EMPLOYEE NAME">
+<div class="mini"><div><label>Name size</label><input id="nameScale" type="range" min=".70" max="1.35" step=".05" value="1"></div><div><label>Name fit</label><select id="nameCase"><option value="upper">UPPERCASE</option><option value="title">Title Case</option></select></div></div>
+</div>
+
+<div><label>Branch / Site</label><select id="branchSite"><option>AMAYZA</option><option>D.A.Y. & COLE SCENTS</option><option>AMAYZA BEVERAGES</option><option>CUSTOM</option></select></div>
+<div><label>Custom Branch/Site</label><input id="branchCustom" placeholder="Use if branch is CUSTOM"></div>
+
+<div class="fieldCard full">
+<label>Position / Role</label><input id="role" value="TEAM MEMBER">
+<div class="mini"><div><label>Role size</label><input id="roleScale" type="range" min=".70" max="1.35" step=".05" value="1"></div><div><label>Detail size</label><input id="detailScale" type="range" min=".70" max="1.35" step=".05" value="1"></div></div>
+</div>
+
+<div><label>Brand / Department</label><input id="brand" placeholder="For Tenant Partner / Partner"></div>
+<div><label>ID No. size</label><input id="idScale" type="range" min=".75" max="1.30" step=".05" value="1"></div>
+<div><label>Back long text size</label><input id="policyScale" type="range" min=".70" max="1.40" step=".05" value="1"></div>
+<div class="full"><label>Address / Assignment Area</label><textarea id="address"></textarea></div>
+<div><label>Emergency Contact Person</label><input id="emergencyName" value=""></div>
+<div><label>Emergency Contact No.</label><input id="emergencyNo" value=""></div>
+<div><label>Validity Date</label><input id="validity" value=""></div>
+<div><label>Photo Shape</label><select id="photoShape"><option value="rounded">Rounded Rectangle</option><option value="circle">Circle</option><option value="square">Square</option></select></div>
+<div><label>SSS</label><input id="sss" value=""></div>
+<div><label>TIN</label><input id="tin" value=""></div>
+<div><label>PhilHealth</label><input id="philhealth" value=""></div>
+</div>
+
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px">
+<button id="addIdBtn" type="button">Add New Set</button>
+<button class="secondary" id="updateIdBtn" type="button">Update Selected Set</button>
+<button class="secondary" id="newBlankBtn" type="button">New Blank ID</button>
+</div>
+<div class="hint">To edit Set 1 or Set 2, click <b>Edit This</b> in the list. Then change the left side. Preview updates live.</div>
+
+<h2 style="margin-top:18px"><span>4</span> Theme / spacing</h2>
+<div class="controls">
+<div><label>Theme Preset</label><select id="theme"><option value="themePerfume">Scents • Black & Gold</option><option value="themeBeverage">Beverages • Yellow</option></select></div>
+<div><label>Main Color</label><input id="primaryColor" type="color" value="#b91c1c"></div>
+<div><label>Accent Color</label><input id="secondaryColor" type="color" value="#d99a22"></div>
+<div><label>ID width (inches)</label><input id="idWidth" type="number" step="0.001" value="2.125"></div>
+<div><label>ID height (inches)</label><input id="idHeight" type="number" step="0.001" value="3.375"></div>
+<div><label>Sets per row</label><input id="setsPerRow" type="range" min="1" max="4" value="2"><span class="hint" id="setsPerRowLabel">2 sets per row</span></div>
+<div><label>Cut-out spacing between ID sets (mm)</label><input id="cutGap" type="number" min="2" max="25" step="0.5" value="6"></div>
+<div><label>Front-back fold spacing (mm)</label><input id="cardGap" type="number" min="1" max="15" step="0.5" value="3"></div>
+<div><label>Paper size</label><select id="paperSize"><option value="SHORT">Short bond 8.5 × 11</option><option value="A4">A4</option><option value="LONG">Long / Folio 8.5 × 13</option><option value="CUSTOM">Custom paper</option></select></div>
+<div><label>Orientation</label><select id="orientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></div>
+<div><label>Custom paper width (mm)</label><input id="customW" type="number" value="215.9"></div>
+<div><label>Custom paper height (mm)</label><input id="customH" type="number" value="279.4"></div>
+<div><label>Preview zoom</label><input id="zoom" type="range" min=".3" max="1.25" step=".05" value=".85"><span class="hint" id="zoomLabel">85%</span></div>
+<div><label>Corner roundness</label><input id="radius" type="range" min="0" max="22" step="1" value="12"><span class="hint" id="radiusLabel">12px</span></div>
+<div class="full adminLockedNotice">🔒 Staff Mode is active. HR can still make IDs; admin is only for protected system use.</div>
+</div>
+
+<h2 style="margin-top:18px"><span>4</span> ID sets list</h2>
+<div class="hint">Click Set 1, Set 2, etc. to edit that exact ID. Then click <b>Update Selected Set</b>.</div>
+<div class="setButtons" id="setButtons"></div>
+<div class="tableWrap">
+<table>
+<thead><tr><th>Set</th><th>No.</th><th>Name</th><th>Type</th><th>Branch</th><th>Action</th></tr></thead>
+<tbody id="idRows"></tbody>
+</table>
+</div>
+</section>
+
+<section class="panel previewPanel">
+<div class="previewTop">
+<div>
+<h2 style="margin:0 0 4px"><span>5</span> Live printable preview</h2>
+<div class="hint">Only created ID sets appear here. Click Add ID Set first, then edit Set 1, Set 2, etc.</div>
+</div>
+<div class="scaleBox">ID size: <b id="idSizeLabel">2.125 × 3.375 in</b></div>
+</div>
+<div class="paperStage">
+<div id="sheet" class="sheet"></div>
+</div>
+</section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<div class="modalOverlay" id="aboutModal">
+<div class="modal">
+<div class="modalHead"><h2>About</h2><button class="secondary small" data-close="aboutModal">Close</button></div>
+<div class="modalBody">
+<div class="aboutGrid">
+<div><b>System</b><br>AMAYZA ID MAKER - EMPLOYEE ID</div>
+<div><b>Purpose</b><br>Printable front/back ID maker for Employee, Tenant Partner, and Partner.</div>
+<div><b>Created by</b><br>EMPLOYEE NAME</div>
+<div><b>Date / Role</b><br>October 2026<br>AMAYZA</div>
+</div>
+<div class="protectionBox"><b>Amayza use only.</b><br>This system is for authorized Amayza staff only and is covered by company confidentiality/NDA expectations.</div>
+</div>
+</div>
+</div>
+
+<div class="modalOverlay" id="masterModal">
+<div class="modal">
+<div class="modalHead"><h2>Master Control</h2><button class="secondary small" data-close="masterModal">Close</button></div>
+<div class="modalBody">
+<div class="controls">
+<div class="full"><label>Master password</label><input id="masterPasswordInput" type="password" placeholder="Enter master password"></div>
+<div><label>New staff opening password</label><input id="newStaffPass" type="text"></div>
+<div><label>New admin unlock password</label><input id="newAdminPass" type="text"></div>
+<div class="full"><button id="savePasswordsBtn" type="button">Save Passwords</button></div>
+</div>
+<div class="hint">Default master password: . Password changes save only in this browser/device unless you Save File and Import File on another device.</div>
+</div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script><script>
+const brandKey=new URLSearchParams(location.search).get('brand')==='beverage'?'beverage':'perfume';
+const brandTheme=brandKey==='perfume'?{primary:'#171717',secondary:'#d4af37',theme:'themePerfume',logo:'daycole.png'}:{primary:'#715200',secondary:'#ffd435',theme:'themeBeverage',logo:''};
+try {const prefs=JSON.parse(localStorage.getItem('amayza-brand-'+brandKey)||'null');if(prefs){brandTheme.logo=prefs.logo||brandTheme.logo;}}catch(e){}
+const $=id=>document.getElementById(id);
+const STORAGE_KEY='amayza-id-v1-'+brandKey;
+const STAFF_DEFAULT='', ADMIN_DEFAULT='', MASTER_DEFAULT='';
+function uid(){return Math.random().toString(36).slice(2,9)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
+function fileToDataUrl(file,cb){const r=new FileReader();r.onload=()=>cb(r.result);r.readAsDataURL(file)}
+let state={
+ staffPass:STAFF_DEFAULT,adminPass:ADMIN_DEFAULT,masterPass:MASTER_DEFAULT,isAdmin:true,
+ primary:brandTheme.primary,secondary:brandTheme.secondary,accent:'#ffffff',theme:brandTheme.theme,
+ paperSize:'A4',orientation:'portrait',customW:215.9,customH:279.4,
+ idWidth:2.125,idHeight:3.375,setsPerRow:2,cutGap:6,cardGap:3,zoom:.85,radius:12,
+ photoWidth:42,photoHeight:34,nameScale:1,roleScale:1,detailScale:1,idScale:1,policyScale:1,nameCase:'upper',
+ amayzaLogo:brandTheme.logo,schoolLogo:'',photo:'',
+ selectedIndex:-1,
+ form:{type:'Employee',no:'AMA-001',name:'EMPLOYEE NAME',role:'TEAM MEMBER',brand:'',branchSite:'AMAYZA',branchCustom:'',address:'',emergencyName:'',emergencyNo:'',validity:'',sss:'',tin:'',philhealth:'',photoShape:'rounded'},
+ ids:[]
+};
+function persist(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){}}
+function load(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(s)state={...state,...s,form:{...state.form,...(s.form||{})},ids:s.ids||state.ids};}catch(e){}}
+function prefix(type){return type==='Employee'?'AMA':type==='Tenant Partner'?'TNP':'PAR'}
+function nextNo(type){const p=prefix(type);const count=state.ids.filter(x=>String(x.no||'').startsWith(p+'-')).length+1;return p+'-'+String(count).padStart(3,'0')}
+function csvEscape(v){v=String(v??'');return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
+function downloadExcelTemplate(){
+ const headers=["ID Type","ID No","Full Name","Position / Role","Brand / Department","Branch / Site","Custom Branch / Site","Address / Assignment Area","Emergency Contact Person","Emergency Contact No.","Validity Date","SSS","TIN","PhilHealth","Photo Shape"];
+ const sample=["Employee","","","","","AMAYZA","","","","","","","","","Rounded Rectangle"];
+ const csv=[headers,sample].map(row=>row.map(csvEscape).join(",")).join("\n");
+ const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
+ const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="amayza_id_upload_format_excel.csv"; a.click(); URL.revokeObjectURL(a.href);
+}
+function parseCsv(text){
+ const rows=[];let row=[],cell="",inQuotes=false;
+ for(let i=0;i<text.length;i++){const ch=text[i],next=text[i+1];if(ch=='"'){if(inQuotes&&next=='"'){cell+='"';i++;}else inQuotes=!inQuotes;}else if(ch===','&&!inQuotes){row.push(cell);cell="";}else if((ch==='\n'||ch==='\r')&&!inQuotes){if(ch==='\r'&&next==='\n')i++;row.push(cell);if(row.some(x=>String(x).trim()!==''))rows.push(row);row=[];cell="";}else cell+=ch;}
+ row.push(cell);if(row.some(x=>String(x).trim()!==''))rows.push(row);return rows;
+}
+function normalizeShape(v){v=String(v||'').toLowerCase();if(v.includes('circle'))return 'circle';if(v.includes('square'))return 'square';return 'rounded'}
+function importCsvRows(rows){
+ if(!rows.length){toast('No rows found.');return}
+ const headers=rows[0].map(h=>String(h).trim().toLowerCase());
+ const idx=name=>headers.findIndex(h=>h===name.toLowerCase());
+ const get=(row,name)=>{const i=idx(name);return i>=0?(row[i]||'').trim():''};
+ const imported=[];
+ rows.slice(1).forEach(row=>{
+  if(!row||row.every(c=>String(c||'').trim()===''))return;
+  const type=get(row,"ID Type")||"Employee";
+  const branch=get(row,"Branch / Site")||"AMAYZA ENTERPRISE";
+  const obj={type:type,no:get(row,"ID No")||nextNo(type),name:get(row,"Full Name"),role:get(row,"Position / Role"),brand:get(row,"Brand / Department"),branchSite:branch,branchCustom:get(row,"Custom Branch / Site"),address:get(row,"Address / Assignment Area"),emergencyName:get(row,"Emergency Contact Person"),emergencyNo:get(row,"Emergency Contact No."),validity:get(row,"Validity Date"),sss:get(row,"SSS"),tin:get(row,"TIN"),philhealth:get(row,"PhilHealth"),photoShape:normalizeShape(get(row,"Photo Shape")),photo:"",amayzaLogo:state.amayzaLogo,schoolLogo:state.schoolLogo,id:uid()};
+  if(obj.name)imported.push(obj);
+ });
+ if(!imported.length){toast('No valid ID rows found.');return}
+ state.ids=imported;state.selectedIndex=0;loadId(0);toast('Imported '+imported.length+' ID set'+(imported.length>1?'s':'')+'.');
+}
+function handleExcelUpload(file){
+ if(!file)return;
+ if(file.name.toLowerCase().endsWith('.xlsx')){toast('For offline import, open Excel then Save As CSV UTF-8 and upload the CSV.');return;}
+ const reader=new FileReader();reader.onload=()=>importCsvRows(parseCsv(reader.result));reader.readAsText(file);
+}
+function branchLabel(obj){return obj.branchSite==='CUSTOM'?(obj.branchCustom||'CUSTOM BRANCH'):obj.branchSite}
+function currentObj(){return {...state.form,photo:state.photo,amayzaLogo:state.amayzaLogo,schoolLogo:state.schoolLogo,signature:state.signature||'',id:uid(),_selected:true}}
+function setInputs(){
+ const simple={primaryColor:'primary',secondaryColor:'secondary',theme:'theme',paperSize:'paperSize',orientation:'orientation',customW:'customW',customH:'customH',idWidth:'idWidth',idHeight:'idHeight',setsPerRow:'setsPerRow',cutGap:'cutGap',cardGap:'cardGap',zoom:'zoom',radius:'radius',photoWidth:'photoWidth',photoHeight:'photoHeight',nameScale:'nameScale',roleScale:'roleScale',detailScale:'detailScale',idScale:'idScale',policyScale:'policyScale',nameCase:'nameCase'};
+ Object.entries(simple).forEach(([id,key])=>{if($(id))$(id).value=state[key]});
+ const fm={idType:'type',idNo:'no',fullName:'name',role:'role',brand:'brand',branchSite:'branchSite',branchCustom:'branchCustom',address:'address',emergencyName:'emergencyName',emergencyNo:'emergencyNo',validity:'validity',sss:'sss',tin:'tin',philhealth:'philhealth',photoShape:'photoShape'};
+ Object.entries(fm).forEach(([id,key])=>{if($(id))$(id).value=state.form[key]||''});
+ $('newStaffPass').value=state.staffPass;$('newAdminPass').value=state.adminPass;
+ $('setsPerRowLabel').textContent=state.setsPerRow+' set'+(state.setsPerRow>1?'s':'')+' per row';
+ $('zoomLabel').textContent=Math.round(state.zoom*100)+'%';
+ $('radiusLabel').textContent=state.radius+'px';
+ $('idSizeLabel').textContent=state.idWidth+' × '+state.idHeight+' in';
+ $('editingNotice').textContent=state.selectedIndex>=0?'Currently editing: Set '+(state.selectedIndex+1)+' - '+(state.ids[state.selectedIndex]?.name||''):'No set selected yet. Click Add ID Set to create Set 1.';
+}
+function paperDims(){let w=215.9,h=279.4;if(state.paperSize==='A4'){w=210;h=297}else if(state.paperSize==='LONG'){w=215.9;h=330.2}else if(state.paperSize==='CUSTOM'){w=Number(state.customW)||215.9;h=Number(state.customH)||279.4}if(state.orientation==='landscape')[w,h]=[h,w];return{w,h}}
+function applyVars(){const r=document.documentElement.style,d=paperDims();r.setProperty('--paperW',d.w+'mm');r.setProperty('--paperH',d.h+'mm');r.setProperty('--primary',state.primary);r.setProperty('--secondary',state.secondary);r.setProperty('--accent',state.accent);r.setProperty('--idW',state.idWidth+'in');r.setProperty('--idH',state.idHeight+'in');r.setProperty('--setsPerRow',state.setsPerRow);r.setProperty('--cutGap',state.cutGap+'mm');r.setProperty('--cardGap',state.cardGap+'mm');r.setProperty('--radius',state.radius+'px');r.setProperty('--photoW',state.photoWidth+'%');r.setProperty('--photoH',state.photoHeight+'%');r.setProperty('--nameScale',state.nameScale);r.setProperty('--roleScale',state.roleScale);r.setProperty('--detailScale',state.detailScale);r.setProperty('--idScale',state.idScale);r.setProperty('--policyScale',state.policyScale)}
+function renderPreview(){applyVars();const sheet=$('sheet');sheet.className='sheet '+state.theme;sheet.style.transform='scale('+state.zoom+')';const d=paperDims();sheet.style.marginBottom='calc('+d.h+'mm * '+(state.zoom-1)+' + 20px)';sheet.innerHTML='';if(!state.ids.length){const note=document.createElement('div');note.className='emptySheetNote';note.innerHTML='Click <b>Add New Set</b> first.<br>Set 1 will appear here and all controls will edit Set 1.';sheet.appendChild(note);return;}state.ids.forEach((it,idx)=>sheet.appendChild(makeSet(it,idx)))}
+function displayName(name){if(state.nameCase==='title')return String(name||'').toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());return String(name||'').toUpperCase()}
+function makeSet(it,idx){const set=document.createElement('div');set.className='idSet'+(idx===state.selectedIndex?' selectedSet':'');const emergency=[it.emergencyName,it.emergencyNo].filter(Boolean).join(' - ');const brand=(it.type!=='Employee'&&it.brand)?`<div class="partnerBrand">${esc(it.brand)}</div>`:'';const branch=branchLabel(it);set.innerHTML=`<div class="idCard front"><div class="frontBg"></div><div class="logoRow"><div class="logoSlot">${it.amayzaLogo?`<img src="${it.amayzaLogo}">`:'AMAYZA<br>ENTERPRISE'}</div><div class="logoSlot">${it.schoolLogo?`<img src="${it.schoolLogo}">`:esc(branch)}</div></div><div class="typeBadge">${esc(it.type)}</div><div class="photo ${esc(it.photoShape||'rounded')}">${it.photo?`<img src="${it.photo}">`:''}</div><div class="signSpace">${it.signature?`<img src="${esc(it.signature)}" alt="Employee signature">`:""}</div><div class="nameBlock"><div class="personName">${esc(displayName(it.name||'FULL NAME'))}</div><div class="branchUnderName">${esc(branch)}</div><div class="role">${esc(it.role||'ROLE')}</div>${brand}</div><div class="addressBox"><b>Address / Assignment Area:</b><div class="address">${esc(it.address||'')}</div></div><div class="idNo">${esc((it.type==='Employee'?'Employee #':'ID #')+' '+(it.no||''))}</div></div><div class="idCard back"><div class="backBrand">AMAYZA<span>ENTERPRISE</span></div><div class="govNums">SSS: ${esc(it.sss||'')}<br>TIN: ${esc(it.tin||'')}<br>PHIL HEALTH: ${esc(it.philhealth||'')}</div><div class="emergencyTitle">PERSON TO NOTIFY IN CASE OF EMERGENCY</div><div class="emergencyName">${esc(emergency)}</div><div class="policy">This ID card is property of <b>AMAYZA ENTERPRISE</b> and must be surrendered upon termination of employment/partnership. This card is non-transferable. Employee/partner agrees to use it according to company regulations. Lost ID must be reported immediately to Amayza Management Dept.</div><div class="signRow"><div class="signBox"><div class="signLine"></div>Authorized Signatory</div><div class="signBox"><div class="signLine"></div>HR / Admin</div></div><div class="validity">VALIDITY DATE: ${esc(it.validity||'')}</div></div>`;return set}
+function renderRows(){const tb=$('idRows');tb.innerHTML='';const sb=$('setButtons');if(sb){sb.innerHTML='';state.ids.forEach((it,idx)=>{const b=document.createElement('button');b.type='button';b.className='small setBtn'+(idx===state.selectedIndex?' active':'');b.textContent='Set '+(idx+1);b.onclick=()=>loadId(idx);sb.appendChild(b);});}state.ids.forEach((it,idx)=>{const tr=document.createElement('tr');tr.className=idx===state.selectedIndex?'editingRow':'';tr.innerHTML=`<td>${idx+1}</td><td>${esc(it.no)}</td><td>${esc(it.name||'')}</td><td>${esc(it.type)}</td><td><button class="small" data-load="${idx}">Edit This</button> <button class="small danger" data-del="${idx}">Remove</button></td>`;tb.appendChild(tr)});tb.querySelectorAll('[data-load]').forEach(b=>b.onclick=()=>loadId(Number(b.dataset.load)));tb.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const idx=Number(b.dataset.del);state.ids.splice(idx,1);if(state.selectedIndex===idx)state.selectedIndex=state.ids.length?Math.max(0,idx-1):-1;else if(state.selectedIndex>idx)state.selectedIndex--;if(state.selectedIndex>=0&&state.ids[state.selectedIndex])loadId(state.selectedIndex);else render();persist();})}
+function render(){setInputs();renderRows();renderPreview();applyProtection();persist()}
+function bindState(id,key,num=false){$(id).addEventListener('input',()=>{state[key]=num?Number($(id).value):$(id).value;render()})}
+function syncSelected(){if(state.selectedIndex>=0&&state.ids[state.selectedIndex]){const oldId=state.ids[state.selectedIndex].id||uid();state.ids[state.selectedIndex]={...currentObj(),id:oldId,_selected:false};}}
+function syncSelected(){if(state.selectedIndex>=0&&state.ids[state.selectedIndex]){const oldId=state.ids[state.selectedIndex].id||uid();state.ids[state.selectedIndex]={...currentObj(),id:oldId,_selected:false};}}
+function bindForm(id,key){$(id).addEventListener('input',()=>{state.form[key]=$(id).value;if(key==='type'){state.form.no=nextNo($(id).value);$('idNo').value=state.form.no}syncSelected();renderPreview();setInputs();renderRows();persist()})}
+function addId(){state.form.no=nextNo(state.form.type);$('idNo').value=state.form.no;const obj=currentObj();obj.id=uid();state.ids.push(obj);state.selectedIndex=state.ids.length-1;loadId(state.selectedIndex);toast('Set '+state.ids.length+' added. Controls now edit Set '+state.ids.length+'.')}
+function updateId(){syncSelected();render();toast(state.selectedIndex>=0?'Set '+(state.selectedIndex+1)+' updated.':'Click Add New Set first.')}
+function loadId(idx){const it=state.ids[idx];if(!it)return;state.signature=it.signature||'';state.selectedIndex=idx;state.form={type:it.type,no:it.no,name:it.name,role:it.role,brand:it.brand||'',branchSite:it.branchSite||'AMAYZA ENTERPRISE',branchCustom:it.branchCustom||'',address:it.address||'',emergencyName:it.emergencyName||'',emergencyNo:it.emergencyNo||'',validity:it.validity||'',sss:it.sss||'',tin:it.tin||'',philhealth:it.philhealth||'',photoShape:it.photoShape||'rounded'};state.photo=it.photo||'';state.amayzaLogo=it.amayzaLogo||state.amayzaLogo;state.schoolLogo=it.schoolLogo||state.schoolLogo;render();toast('Now editing Set '+(idx+1)+'.')}
+function newBlank(){state.selectedIndex=-1;state.form={type:'Employee',no:nextNo('Employee'),name:'',role:'',brand:'',branchSite:'AMAYZA',branchCustom:'',address:'',emergencyName:'',emergencyNo:'',validity:'',sss:'',tin:'',philhealth:'',photoShape:'rounded'};state.photo='';render();toast('Blank controls ready. Click Add New Set to create a set.')}
+function applyProtection(){document.body.classList.toggle('admin-locked',!state.isAdmin);$('modeBadge').textContent=state.isAdmin?'Admin Mode':'Staff Mode';$('modeBadge').classList.toggle('admin',state.isAdmin)}
+function openModal(id){$(id).classList.add('show')}function closeModal(id){$(id).classList.remove('show')}
+function init(){load();state.isAdmin=true;document.body.classList.remove('access-locked');render();
+$('accessForm').addEventListener('submit',e=>{e.preventDefault();if($('accessPassword').value===state.staffPass){document.body.classList.remove('access-locked');$('accessError').classList.remove('show');toast('Welcome to Amayza ID Maker.')}else $('accessError').classList.add('show')});
+$('printBtn').onclick=()=>window.print();$('pdfBtn').onclick=()=>{toast('Choose Save as PDF in the print window.');setTimeout(()=>window.print(),250)};$('aboutBtn').onclick=()=>openModal('aboutModal');$('masterBtn').onclick=()=>openModal('masterModal');document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));
+$('adminBtn').onclick=()=>{if(state.isAdmin){state.isAdmin=false;applyProtection();persist();toast('Back to Staff Mode.');return}const p=prompt('Enter admin password:');if(p===state.adminPass){state.isAdmin=true;applyProtection();persist();toast('Admin Mode unlocked.')}else if(p!==null)toast('Wrong admin password.')};
+$('savePasswordsBtn').onclick=()=>{if($('masterPasswordInput').value!==state.masterPass){toast('Wrong master password.');return}state.staffPass=$('newStaffPass').value||state.staffPass;state.adminPass=$('newAdminPass').value||state.adminPass;persist();toast('Passwords updated.');$('masterPasswordInput').value=''};
+const formMap={idType:'type',idNo:'no',fullName:'name',role:'role',brand:'brand',branchSite:'branchSite',branchCustom:'branchCustom',address:'address',emergencyName:'emergencyName',emergencyNo:'emergencyNo',validity:'validity',sss:'sss',tin:'tin',philhealth:'philhealth',photoShape:'photoShape'};Object.entries(formMap).forEach(([id,k])=>bindForm(id,k));
+const stateMap={theme:['theme',false],primaryColor:['primary',false],secondaryColor:['secondary',false],paperSize:['paperSize',false],orientation:['orientation',false],customW:['customW',true],customH:['customH',true],idWidth:['idWidth',true],idHeight:['idHeight',true],setsPerRow:['setsPerRow',true],cutGap:['cutGap',true],cardGap:['cardGap',true],zoom:['zoom',true],radius:['radius',true],photoWidth:['photoWidth',true],photoHeight:['photoHeight',true],nameScale:['nameScale',true],roleScale:['roleScale',true],detailScale:['detailScale',true],idScale:['idScale',true],policyScale:['policyScale',true],nameCase:['nameCase',false]};
+Object.entries(stateMap).forEach(([id,v])=>bindState(id,v[0],v[1]));
+document.addEventListener('focusin',e=>{
+ if(!['INPUT','SELECT','TEXTAREA','BUTTON'].includes(e.target.tagName))return;
+ document.querySelectorAll('.activeEdit').forEach(x=>x.classList.remove('activeEdit'));
+ const box=e.target.closest('.fieldCard,.uploadBox');
+ if(box)box.classList.add('activeEdit');
+});
+document.addEventListener('click',e=>{
+ const box=e.target.closest('.fieldCard,.uploadBox');
+ if(box){document.querySelectorAll('.activeEdit').forEach(x=>x.classList.remove('activeEdit'));box.classList.add('activeEdit');}
+});
+$('downloadTemplateBtn').onclick=downloadExcelTemplate;
+$('idExcelUpload').onchange=e=>handleExcelUpload(e.target.files[0]);
+
+$('photoUpload').onchange=e=>{const f=e.target.files[0];if(f)fileToDataUrl(f,v=>{state.photo=v;syncSelected();render();toast(state.selectedIndex>=0?'Photo applied to Set '+(state.selectedIndex+1)+'.':'Photo uploaded. Click Add ID Set to place it in preview.')})};
+$('amayzaLogoUpload').onchange=e=>{const f=e.target.files[0];if(f)fileToDataUrl(f,v=>{state.amayzaLogo=v;syncSelected();render();toast(state.selectedIndex>=0?'Amayza logo applied to selected set.':'Amayza logo uploaded. Click Add ID Set to use it.')})};
+$('schoolLogoUpload').onchange=e=>{const f=e.target.files[0];if(f)fileToDataUrl(f,v=>{state.schoolLogo=v;syncSelected();render();toast(state.selectedIndex>=0?'School/branch logo applied to selected set.':'School/branch logo uploaded. Click Add ID Set to use it.')})};
+$('addIdBtn').onclick=addId;$('updateIdBtn').onclick=updateId;$('newBlankBtn').onclick=newBlank;$('addIdTopBtn').onclick=addId;$('newBlankTopBtn').onclick=newBlank;
+$('saveBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='amayza-hr-id-maker-file.json';a.click();URL.revokeObjectURL(a.href)};
+$('importFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const data=JSON.parse(r.result);state={...state,...data,form:{...state.form,...(data.form||{})},ids:data.ids||state.ids};render();toast('File imported.')}catch(err){toast('Invalid file.')}};r.readAsText(f)};
+
+}
+init();
+if(!state.ids.length)addId();
+
+$('theme').onchange=()=>{const p=$('theme').value==='themeBeverage'?{primary:'#715200',secondary:'#ffd435'}:{primary:'#171717',secondary:'#d4af37'};Object.assign(state,p,{theme:$('theme').value});render();};
+$('signatureUpload').onchange=e=>{if(e.target.files[0])fileToDataUrl(e.target.files[0],v=>{state.signature=v;syncSelected();render()})};
+$('jpgBtn').onclick=async()=>{const idx=state.selectedIndex>=0?state.selectedIndex:0;const target=$('sheet').children[idx];if(!state.ids.length){toast('Add an ID set first.');return;}const btn=$('jpgBtn');btn.disabled=true;btn.textContent='Preparing JPG…';try {const canvas=await html2canvas(target,{scale:3,backgroundColor:'#ffffff',onclone:doc=>{const sh=doc.getElementById('sheet');sh.style.transform='none';sh.querySelectorAll('.selectedSet').forEach(el=>el.classList.remove('selectedSet'));}});const a=document.createElement('a');a.download='AMAYZA-'+state.ids[idx].no+'.jpg';a.href=canvas.toDataURL('image/jpeg',.96);a.click();}catch(e){toast('Unable to export. Please use Print / Save as PDF.');}finally{btn.disabled=false;btn.textContent='Download ID JPG';}};
+if(document.modelContext?.registerTool){document.modelContext.registerTool({name:'configure_employee_id',description:'Fill the currently selected employee ID. Does not print or download.',inputSchema:{type:'object',properties:{name:{type:'string'},role:{type:'string'}},required:['name'],additionalProperties:false},execute(input){if(typeof input.name!=='string'||(input.role!==undefined&&typeof input.role!=='string'))throw new Error('Invalid employee fields');state.form.name=input.name;if(input.role!==undefined)state.form.role=input.role;syncSelected();render();return {name:state.form.name,role:state.form.role};}});}
+
+</script>
+</body>
+</html>
