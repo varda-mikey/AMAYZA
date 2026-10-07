@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "presets": [
+    {
+      "id": "perfume-standard",
+      "name": "D.A.Y. & COLE \u00b7 Standard",
+      "companyName": "AMAYZA",
+      "brandName": "D.A.Y. & COLE SCENTS",
+      "brand": "perfume",
+      "logo": "daycole.png",
+      "branchLogo": "",
+      "photoShape": "rounded",
+      "idDesign": {
+        "primary": "#171717",
+        "secondary": "#d4af37",
+        "theme": "themePerfume"
+      },
+      "priceDesign": {
+        "primary": "#171717",
+        "secondary": "#d4af37"
+      }
+    },
+    {
+      "id": "beverage-standard",
+      "name": "Beverages \u00b7 Yellow Standard",
+      "companyName": "AMAYZA",
+      "brandName": "AMAYZA BEVERAGES",
+      "brand": "beverage",
+      "logo": "",
+      "branchLogo": "",
+      "photoShape": "rounded",
+      "idDesign": {
+        "primary": "#715200",
+        "secondary": "#ffd435",
+        "theme": "themeBeverage"
+      },
+      "priceDesign": {
+        "primary": "#715200",
+        "secondary": "#ffd435"
+      }
+    }
+  ]
+}
