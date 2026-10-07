@@ -13,7 +13,7 @@ html.design-mode, .design-mode body{height:100%;overflow:hidden}
 .design-mode .previewPanel,.design-mode main>.panel:last-child{position:static;display:flex;flex-direction:column;overflow:hidden}
 .design-mode .previewTop,.design-mode .preview-head{flex:none}
 .design-mode .paperStage,.design-mode .stage{flex:1;min-height:0;max-height:none;overflow:auto;padding:18px;overscroll-behavior:contain}
-.design-mode .tablewrap{flex:none;max-height:24vh;overflow:auto}
+.design-mode .tablewrap{overflow:auto}.design-mode .tablewrap th,.design-mode .tablewrap td{white-space:normal}.design-mode .tablewrap td input{min-width:65px}.design-mode .tablewrap td:nth-child(2){width:75px}
 .design-mode .sheet{margin:0;transform-origin:top left}
 .design-mode .studio-metadata{background:#f8fafc;border:1px solid #d5dce5;box-shadow:none;padding:14px;margin-bottom:20px;display:block;font:14px Arial;color:#171717}
 .design-mode .studio-metadata h1{font-size:17px;margin:0 0 10px}
