@@ -510,5 +510,5 @@ $('jpgBtn').onclick=async()=>{const idx=state.selectedIndex>=0?state.selectedInd
 if(document.modelContext?.registerTool){document.modelContext.registerTool({name:'configure_employee_id',description:'Fill the currently selected employee ID. Does not print or download.',inputSchema:{type:'object',properties:{name:{type:'string'},role:{type:'string'}},required:['name'],additionalProperties:false},execute(input){if(typeof input.name!=='string'||(input.role!==undefined&&typeof input.role!=='string'))throw new Error('Invalid employee fields');state.form.name=input.name;if(input.role!==undefined)state.form.role=input.role;syncSelected();render();return {name:state.form.name,role:state.form.role};}});}
 
 </script>
-<script src="preset-runtime.js?v=5"></script></body>
+<script src="preset-runtime.js?v=6"></script></body>
 </html>
