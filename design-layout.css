@@ -1,0 +1,34 @@
+/* Designer-only workspace: controls and preview scroll independently. */
+@media screen {
+html.design-mode, .design-mode body{height:100%;overflow:hidden}
+.design-mode body{display:flex;flex-direction:column;margin:0}
+.design-mode header{position:static;flex:none;padding:8px 16px;gap:8px}
+.design-mode header h1{font-size:16px}
+.design-mode header button,.design-mode header .importButton{padding:7px 10px;font-size:12px}
+.design-mode .preset-savebar{flex:none;padding:8px 16px!important}
+.design-mode #presetNotice{flex:none;padding:7px 16px!important;font-size:12px!important}
+.design-mode main,.design-mode main.app{flex:1;min-height:0;display:grid;grid-template-columns:380px minmax(0,1fr);gap:12px;padding:12px;align-items:stretch;overflow:hidden}
+.design-mode main>.panel{margin:0;min-height:0;min-width:0;padding:16px;border-radius:10px}
+.design-mode .leftPanel,.design-mode .editor{overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+.design-mode .previewPanel,.design-mode main>.panel:last-child{position:static;display:flex;flex-direction:column;overflow:hidden}
+.design-mode .previewTop,.design-mode .preview-head{flex:none}
+.design-mode .paperStage,.design-mode .stage{flex:1;min-height:0;max-height:none;overflow:auto;padding:18px;overscroll-behavior:contain}
+.design-mode .tablewrap{flex:none;max-height:24vh;overflow:auto}
+.design-mode .sheet{margin:0;transform-origin:top left}
+.design-mode .studio-metadata{background:#f8fafc;border:1px solid #d5dce5;box-shadow:none;padding:14px;margin-bottom:20px;display:block;font:14px Arial;color:#171717}
+.design-mode .studio-metadata h1{font-size:17px;margin:0 0 10px}
+.design-mode .studio-metadata label{display:block;font-size:13px;font-weight:700;margin:12px 0 5px}
+.design-mode .studio-metadata input,.design-mode .studio-metadata select{width:100%;font:14px Arial;padding:9px;border:1px solid #ccc;border-radius:6px}
+.design-mode .studio-metadata .actions{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+.design-mode .studio-metadata button,.design-mode .studio-metadata a.button{display:inline-block;font:700 12px Arial;padding:9px;border:1px solid #ccc;border-radius:6px;background:white;color:#171717;text-decoration:none;cursor:pointer}
+.design-mode .studio-metadata button.primary{background:#171717;color:white}
+.design-mode .studio-metadata p,.design-mode .studio-metadata .notice{font-size:12px;line-height:1.5;color:#515866}
+.design-mode .studio-metadata .notice{margin-bottom:10px}
+.design-mode #admin-logoPreview{max-width:100%;max-height:65px;margin-top:8px}
+.design-mode #admin-status{font-size:12px;line-height:1.5;margin-top:10px;color:#42556d}
+.design-mode .studio-publish{margin-top:14px;padding:12px 0 0;border-top:1px solid #ddd}
+.design-mode .studio-publish summary{font-size:14px;font-weight:bold;cursor:pointer}
+@media(max-width:900px){.design-mode main,.design-mode main.app{grid-template-columns:320px minmax(0,1fr);padding:8px;gap:8px}.design-mode .controls{grid-template-columns:1fr}.design-mode .fieldCard .mini{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.design-mode main,.design-mode main.app{grid-template-columns:44% minmax(0,1fr);gap:5px;padding:5px}.design-mode main>.panel{padding:8px}.design-mode .row,.design-mode .controls,.design-mode .fieldCard .mini{grid-template-columns:1fr}.design-mode header .actions{gap:4px}.design-mode .studio-metadata{padding:8px}.design-mode .paperStage,.design-mode .stage{padding:8px}}
+}
+@media print{.studio-metadata{display:none!important}}
