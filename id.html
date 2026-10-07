@@ -200,7 +200,7 @@ button{background:var(--primary);color:white}button.secondary{background:#fff;co
 .front .logoRow{background:rgba(255,255,255,.96);border-radius:3px;height:37px;padding:3px}.logoSlot{max-width:58%}.logoSlot img{max-height:30px}
 .signSpace img{max-width:95%;max-height:100%;object-fit:contain}
 @media(max-width:760px){.app{display:block}.panel{margin-bottom:16px}.paperStage{overflow:auto}header .actions{gap:6px}header{position:static}}
-</style></head>
+</style><style>.idCard{font-family:var(--idFont,Arial)!important}.personName{font-weight:var(--nameWeight,900)!important}.front,.back{background:var(--cardBackground,#fff)!important}.sheet{padding:var(--paperMargin,10mm)}.logoRow{height:calc(var(--logoHeight,8mm) + 2mm)!important}.logoSlot{height:var(--logoHeight,8mm)!important}.logoSlot img{max-height:var(--logoHeight,8mm)!important}.idCutGuide{position:absolute;pointer-events:none;overflow:visible;z-index:5}.idSet:after{left:calc(var(--idW) + var(--cardGap) / 2);transform:none;border-color:var(--guideColor,#8b8b8b);border-width:var(--guideStroke,.2mm)}.idSet.no-fold:before,.idSet.no-fold:after{display:none}.selectedSet{animation:none;filter:none}#idLayoutWarning{color:#9d2929;font-weight:700}@media print{.idSet{break-inside:avoid;page-break-inside:avoid}}</style></head>
 <body class="admin-">
 <div class="accessOverlay" id="accessOverlay">
 <form class="accessCard" id="accessForm">
@@ -305,7 +305,7 @@ button{background:var(--primary);color:white}button.secondary{background:#fff;co
 
 <h2 style="margin-top:18px"><span>4</span> Theme / spacing</h2>
 <div class="controls">
-<div><label>Theme Preset</label><select id="theme"><option value="themePerfume">Scents • Black & Gold</option><option value="themeBeverage">Beverages • Yellow</option></select></div>
+<div class="full"><h2>Cutting guides & extra adjustments</h2></div><div><label><input id="showCutGuides" type="checkbox" style="width:auto" checked> Show card cutting guides</label></div><div><label><input id="showFoldGuide" type="checkbox" style="width:auto" checked> Show center fold guide</label></div><div><label>Guide color</label><input id="guideColor" type="color" value="#8b8b8b"></div><div><label>Guide thickness (mm)</label><input id="guideStroke" type="number" min=".1" max="1" step=".1" value=".2"></div><div><label>Guide offset (mm)</label><input id="guideOffset" type="number" min="0" max="2" step=".1" value="0"></div><div><label>Paper margins (mm)</label><input id="paperMargin" type="number" min="3" max="30" step=".5" value="10"></div><div><label>ID font</label><select id="idFont"><option>Arial</option><option>Verdana</option><option>Georgia</option><option>Times New Roman</option><option>Trebuchet MS</option><option>Tahoma</option></select></div><div><label>Name weight</label><select id="nameWeight"><option value="400">Regular</option><option value="600">Semi-bold</option><option value="700">Bold</option><option value="900" selected>Extra bold</option></select></div><div><label>Logo height (mm)</label><input id="logoSize" type="range" min="4" max="10" step=".5" value="8"></div><div><label>Card background</label><input id="background" type="color" value="#ffffff"></div><div class="full hint" id="idLayoutWarning" role="status"></div><div><label>Theme Preset</label><select id="theme"><option value="themePerfume">Scents • Black & Gold</option><option value="themeBeverage">Beverages • Yellow</option></select></div>
 <div><label>Main Color</label><input id="primaryColor" type="color" value="#b91c1c"></div>
 <div><label>Accent Color</label><input id="secondaryColor" type="color" value="#d99a22"></div>
 <div><label>ID width (inches)</label><input id="idWidth" type="number" step="0.001" value="2.125"></div>
@@ -322,15 +322,6 @@ button{background:var(--primary);color:white}button.secondary{background:#fff;co
 <div class="full adminLockedNotice">🔒 Staff Mode is active. HR can still make IDs; admin is only for protected system use.</div>
 </div>
 
-<h2 style="margin-top:18px"><span>4</span> ID sets list</h2>
-<div class="hint">Click Set 1, Set 2, etc. to edit that exact ID. Then click <b>Update Selected Set</b>.</div>
-<div class="setButtons" id="setButtons"></div>
-<div class="tableWrap">
-<table>
-<thead><tr><th>Set</th><th>No.</th><th>Name</th><th>Type</th><th>Branch</th><th>Action</th></tr></thead>
-<tbody id="idRows"></tbody>
-</table>
-</div>
 </section>
 
 <section class="panel previewPanel">
@@ -394,8 +385,8 @@ let state={
  staffPass:STAFF_DEFAULT,adminPass:ADMIN_DEFAULT,masterPass:MASTER_DEFAULT,isAdmin:true,
  primary:brandTheme.primary,secondary:brandTheme.secondary,accent:'#ffffff',theme:brandTheme.theme,
  paperSize:'A4',orientation:'portrait',customW:215.9,customH:279.4,
- idWidth:2.125,idHeight:3.375,setsPerRow:2,cutGap:6,cardGap:3,zoom:.85,radius:12,
- photoWidth:42,photoHeight:34,nameScale:1,roleScale:1,detailScale:1,idScale:1,policyScale:1,nameCase:'upper',
+ idWidth:2.125,idHeight:3.375,setsPerRow:1,cutGap:6,cardGap:3,zoom:.85,radius:12,
+ showCutGuides:true,showFoldGuide:true,guideColor:'#8b8b8b',guideStroke:.2,guideOffset:0,idFont:'Arial',nameWeight:'900',logoSize:8,background:'#ffffff',paperMargin:10,photoWidth:42,photoHeight:34,nameScale:1,roleScale:1,detailScale:1,idScale:1,policyScale:1,nameCase:'upper',
  amayzaLogo:brandTheme.logo,schoolLogo:'',photo:'',
  selectedIndex:-1,
  form:{type:'Employee',no:'AMA-001',name:'EMPLOYEE NAME',role:'TEAM MEMBER',brand:'',branchSite:'AMAYZA',branchCustom:'',address:'',emergencyName:'',emergencyNo:'',validity:'',sss:'',tin:'',philhealth:'',photoShape:'rounded'},
@@ -502,6 +493,14 @@ $('importFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new 
 }
 init();
 if(!state.ids.length)addId();
+
+
+const extraFields=['showCutGuides','showFoldGuide','guideColor','guideStroke','guideOffset','idFont','nameWeight','logoSize','background','paperMargin'];
+function applyExtras(){const root=document.documentElement.style;for(const [k,v] of Object.entries({'--idFont':state.idFont,'--nameWeight':state.nameWeight,'--cardBackground':state.background,'--paperMargin':state.paperMargin+'mm','--logoHeight':state.logoSize+'mm','--guideColor':state.guideColor,'--guideStroke':state.guideStroke+'mm'}))root.setProperty(k,v);for(const k of extraFields){const el=$(k);if(el.type==='checkbox')el.checked=!!state[k];else el.value=state[k];}const w=state.idWidth*25.4,h=state.idHeight*25.4,o=state.guideOffset,l=Math.max(0,Math.min(1.5,state.cutGap/2-o));$('sheet').querySelectorAll('.idSet').forEach(set=>{set.classList.toggle('no-fold',!state.showFoldGuide);set.querySelectorAll('.idCutGuide').forEach(el=>el.remove());if(!state.showCutGuides)return;const x=-o,y=-o,r=w+o,b=h+o,d=`M${x-l} ${y}H${x} M${x} ${y-l}V${y} M${r} ${y}H${r+l} M${r} ${y-l}V${y} M${x-l} ${b}H${x} M${x} ${b}V${b+l} M${r} ${b}H${r+l} M${r} ${b}V${b+l}`;for(const side of [0,1]){const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.classList.add('idCutGuide');svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.style.cssText=`left:${side?'calc(var(--idW) + var(--cardGap))':'0'};top:0;width:var(--idW);height:var(--idH)`;svg.innerHTML=`<path d="${d}" fill="none" stroke="${esc(state.guideColor)}" stroke-width="${state.guideStroke}"/>`;set.appendChild(svg)}});const pd=paperDims();const used=(w*2+state.cardGap)*state.setsPerRow+(state.setsPerRow-1)*state.cutGap;let warning='';if(used>pd.w-2*state.paperMargin)warning='ID sets exceed the paper width. Reduce sets per row, ID size, fold spacing or margins.';else if(h>pd.h-2*state.paperMargin)warning='ID height exceeds the printable area.';else if(state.showCutGuides&&(o+1.5>state.cardGap/2||o+1.5>state.cutGap/2))warning='Increase cut/fold spacing or reduce guide offset to keep guides apart.';$('idLayoutWarning').textContent=warning;$('printBtn').disabled=!!warning;$('pdfBtn').disabled=!!warning;let ps=$('idPrintSize');if(!ps){ps=document.createElement('style');ps.id='idPrintSize';document.head.appendChild(ps)}ps.textContent=`@page{size:${pd.w}mm ${pd.h}mm;margin:0}`;persist();}
+const baseRender=render;render=function(){baseRender();applyExtras()};
+const basePreview=renderPreview;renderPreview=function(){basePreview();applyExtras()};
+for(const k of extraFields){const el=$(k);el.addEventListener('input',()=>{let v=el.type==='checkbox'?el.checked:el.value;if(['guideStroke','guideOffset','logoSize','paperMargin'].includes(k)){v=Number(v);if(!Number.isFinite(v)||v<Number(el.min)||v>Number(el.max))return;}state[k]=v;applyExtras()});}
+applyExtras();
 
 $('theme').onchange=()=>{const p=$('theme').value==='themeBeverage'?{primary:'#715200',secondary:'#ffd435'}:{primary:'#171717',secondary:'#d4af37'};Object.assign(state,p,{theme:$('theme').value});render();};
 $('signatureUpload').onchange=e=>{if(e.target.files[0])fileToDataUrl(e.target.files[0],v=>{state.signature=v;syncSelected();render()})};
