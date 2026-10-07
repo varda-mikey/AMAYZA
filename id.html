@@ -70,7 +70,7 @@ input[type=range]{padding:0}
 .hint{font-size:12px;color:var(--muted);line-height:1.35;margin-top:6px}
 .quickBox{background:#fff7ed;border:1px solid #fed7aa;border-radius:16px;padding:12px;margin:12px 0;font-size:12px;line-height:1.4;color:#374151;font-weight:750}
 .uploadBox{border:2px dashed #f59e0b;border-radius:16px;background:#fffbeb;padding:12px;transition:.18s}
-.activeEdit{border-color:var(--primary)!important;box-shadow:0 0 0 4px color-mix(in srgb,var(--secondary) 42%,transparent),0 0 22px color-mix(in srgb,var(--primary) 25%,transparent)!important;animation:editGlow 1.4s ease-in-out infinite}
+.activeEdit{border-color:var(--primary)!important;box-shadow:0 0 0 4px rgba(212,175,55,.25),0 0 22px rgba(23,23,23,.2)!important;animation:editGlow 1.4s ease-in-out infinite}
 @keyframes editGlow{0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
 .setButtons{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 10px}.setBtn{background:#f3f4f6;border:2px solid #e5e7eb;box-shadow:none}.setBtn.active{background:var(--secondary);border-color:var(--primary);box-shadow:0 0 0 3px rgba(185,28,28,.12)}
 .fieldCard{border:1px solid #e5e7eb;background:#f9fafb;border-radius:14px;padding:10px}
@@ -86,7 +86,7 @@ input[type=range]{padding:0}
 .idCard{width:var(--idW);height:var(--idH);background:#fff;border:1px solid #d1d5db;border-radius:var(--radius);overflow:hidden;position:relative;break-inside:avoid;font-family:Arial,Helvetica,sans-serif}
 .front{background:var(--accent)}
 .back{background:var(--accent)}
-.frontBg{position:absolute;inset:0;background:linear-gradient(135deg,var(--secondary) 0%,color-mix(in srgb,var(--secondary) 75%,#fff) 18%,transparent 18%),linear-gradient(155deg,transparent 0 73%,var(--secondary) 74% 100%);opacity:1}
+.frontBg{position:absolute;inset:0;background:linear-gradient(135deg,var(--secondary) 0%,var(--secondary) 18%,transparent 18%),linear-gradient(155deg,transparent 0 73%,var(--secondary) 74% 100%);opacity:1}
 .frontBg:after{content:"";position:absolute;left:-12%;top:8%;width:130%;height:38%;border-top:3px solid rgba(255,255,255,.9);border-radius:50%;transform:rotate(-10deg)}
 .themeLPU{--primary:#8b0000;--secondary:#facc15}
 .themeAteneo{--primary:#0f3d91;--secondary:#ffffff}
@@ -504,7 +504,7 @@ applyExtras();
 
 $('theme').onchange=()=>{const p=$('theme').value==='themeBeverage'?{primary:'#715200',secondary:'#ffd435'}:{primary:'#171717',secondary:'#d4af37'};Object.assign(state,p,{theme:$('theme').value});render();};
 $('signatureUpload').onchange=e=>{if(e.target.files[0])fileToDataUrl(e.target.files[0],v=>{state.signature=v;syncSelected();render()})};
-$('jpgBtn').onclick=async()=>{const idx=state.selectedIndex>=0?state.selectedIndex:0;const target=$('sheet').children[idx];if(!state.ids.length){toast('Add an ID set first.');return;}const btn=$('jpgBtn');btn.disabled=true;btn.textContent='Preparing JPG…';try {const canvas=await html2canvas(target,{scale:3,backgroundColor:'#ffffff',onclone:doc=>{const sh=doc.getElementById('sheet');sh.style.transform='none';sh.querySelectorAll('.selectedSet').forEach(el=>el.classList.remove('selectedSet'));}});const a=document.createElement('a');a.download='AMAYZA-'+state.ids[idx].no+'.jpg';a.href=canvas.toDataURL('image/jpeg',.96);a.click();}catch(e){toast('Unable to export. Please use Print / Save as PDF.');}finally{btn.disabled=false;btn.textContent='Download ID JPG';}};
+$('jpgBtn').onclick=async()=>{const idx=state.selectedIndex>=0?state.selectedIndex:0;const target=$('sheet').children[idx];if(!state.ids.length){toast('Add an ID set first.');return;}const btn=$('jpgBtn');btn.disabled=true;btn.textContent='Preparing JPG…';try {const canvas=await html2canvas(target,{scale:3,backgroundColor:'#ffffff',onclone:doc=>{const sh=doc.getElementById('sheet');sh.style.transform='none';sh.querySelectorAll('.selectedSet').forEach(el=>el.classList.remove('selectedSet'));}});const a=document.createElement('a');a.download='AMAYZA-'+state.ids[idx].no+'.jpg';a.href=canvas.toDataURL('image/jpeg',.96);a.click();}catch(e){console.error('ID JPG export failed',e);toast('Unable to export. Please use Print / Save as PDF.');}finally{btn.disabled=false;btn.textContent='Download ID JPG';}};
 if(document.modelContext?.registerTool){document.modelContext.registerTool({name:'configure_employee_id',description:'Fill the currently selected employee ID. Does not print or download.',inputSchema:{type:'object',properties:{name:{type:'string'},role:{type:'string'}},required:['name'],additionalProperties:false},execute(input){if(typeof input.name!=='string'||(input.role!==undefined&&typeof input.role!=='string'))throw new Error('Invalid employee fields');state.form.name=input.name;if(input.role!==undefined)state.form.role=input.role;syncSelected();render();return {name:state.form.name,role:state.form.role};}});}
 
 </script>
