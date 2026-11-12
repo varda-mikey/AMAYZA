@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AMAYZA ID MAKER - EMPLOYEE ID</title>
+<title>AMAYZA ID MAKER - HR FRIENDLY</title>
 <style>
 :root{
   --primary:#b91c1c;
@@ -70,7 +70,7 @@ input[type=range]{padding:0}
 .hint{font-size:12px;color:var(--muted);line-height:1.35;margin-top:6px}
 .quickBox{background:#fff7ed;border:1px solid #fed7aa;border-radius:16px;padding:12px;margin:12px 0;font-size:12px;line-height:1.4;color:#374151;font-weight:750}
 .uploadBox{border:2px dashed #f59e0b;border-radius:16px;background:#fffbeb;padding:12px;transition:.18s}
-.activeEdit{border-color:var(--primary)!important;box-shadow:0 0 0 4px rgba(212,175,55,.25),0 0 22px rgba(23,23,23,.2)!important;animation:editGlow 1.4s ease-in-out infinite}
+.activeEdit{border-color:var(--primary)!important;box-shadow:0 0 0 4px color-mix(in srgb,var(--secondary) 42%,transparent),0 0 22px color-mix(in srgb,var(--primary) 25%,transparent)!important;animation:editGlow 1.4s ease-in-out infinite}
 @keyframes editGlow{0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
 .setButtons{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 10px}.setBtn{background:#f3f4f6;border:2px solid #e5e7eb;box-shadow:none}.setBtn.active{background:var(--secondary);border-color:var(--primary);box-shadow:0 0 0 3px rgba(185,28,28,.12)}
 .fieldCard{border:1px solid #e5e7eb;background:#f9fafb;border-radius:14px;padding:10px}
@@ -86,7 +86,7 @@ input[type=range]{padding:0}
 .idCard{width:var(--idW);height:var(--idH);background:#fff;border:1px solid #d1d5db;border-radius:var(--radius);overflow:hidden;position:relative;break-inside:avoid;font-family:Arial,Helvetica,sans-serif}
 .front{background:var(--accent)}
 .back{background:var(--accent)}
-.frontBg{position:absolute;inset:0;background:linear-gradient(135deg,var(--secondary) 0%,var(--secondary) 18%,transparent 18%),linear-gradient(155deg,transparent 0 73%,var(--secondary) 74% 100%);opacity:1}
+.frontBg{position:absolute;inset:0;background:linear-gradient(135deg,var(--secondary) 0%,color-mix(in srgb,var(--secondary) 75%,#fff) 18%,transparent 18%),linear-gradient(155deg,transparent 0 73%,var(--secondary) 74% 100%);opacity:1}
 .frontBg:after{content:"";position:absolute;left:-12%;top:8%;width:130%;height:38%;border-top:3px solid rgba(255,255,255,.9);border-radius:50%;transform:rotate(-10deg)}
 .themeLPU{--primary:#8b0000;--secondary:#facc15}
 .themeAteneo{--primary:#0f3d91;--secondary:#ffffff}
@@ -191,48 +191,28 @@ body.access-locked header,body.access-locked main{
 }
 </style>
 
-<style>
-:root{--primary:#171717;--secondary:#d4af37;--bg:#f4f5f7}
-.themePerfume,.themeBeverage{--primary:inherit;--secondary:inherit}
-#accessOverlay,#aboutBtn,#adminBtn,#masterBtn,#modeBadge,.protectionBox,.adminLockedNotice{display:none!important}
-header{background:#fff;color:#171717;border-bottom:1px solid #ddd}header h1{font-size:18px}h2{font-size:16px}label,input,textarea,select,button{font-size:14px}
-button{background:var(--primary);color:white}button.secondary{background:#fff;color:#171717;border-color:#ddd}
-.front .logoRow{background:rgba(255,255,255,.96);border-radius:3px;height:37px;padding:3px}.logoSlot{max-width:58%}.logoSlot img{max-height:30px}
-.signSpace img{max-width:95%;max-height:100%;object-fit:contain}
-@media(max-width:760px){.app{display:block}.panel{margin-bottom:16px}.paperStage{overflow:auto}header .actions{gap:6px}header{position:static}}
-</style><style>.idCard{font-family:var(--idFont,Arial)!important}.personName{font-weight:var(--nameWeight,900)!important}.front,.back{background:var(--cardBackground,#fff)!important}.sheet{padding:var(--paperMargin,10mm)}.logoRow{height:calc(var(--logoHeight,8mm) + 2mm)!important}.logoSlot{height:var(--logoHeight,8mm)!important}.logoSlot img{max-height:var(--logoHeight,8mm)!important}.idCutGuide{position:absolute;pointer-events:none;overflow:visible;z-index:5}.idSet:after{left:calc(var(--idW) + var(--cardGap) / 2);transform:none;border-color:var(--guideColor,#8b8b8b);border-width:var(--guideStroke,.2mm)}.idSet.no-fold:before,.idSet.no-fold:after{display:none}.selectedSet{animation:none;filter:none}#idLayoutWarning{color:#9d2929;font-weight:700}@media print{.idSet{break-inside:avoid;page-break-inside:avoid}}</style><style>.preset-loading main,.preset-error main{visibility:hidden}.staff-mode .admin-design,.staff-mode .preset-admin-only{display:none!important}.staff-mode #saveBtn,.staff-mode .fileLabel,.staff-mode #saveFile,.staff-mode .importButton,.staff-mode #resetDesign{display:none!important}</style><script>document.documentElement.classList.add('preset-loading');if(new URLSearchParams(location.search).get('mode')!=='design')document.documentElement.classList.add('staff-mode');</script><style>.staff-mode .mini{display:none!important}</style><style>@media print{#presetNotice,.preset-savebar{display:none!important}}.preset-error header .actions{display:none!important}</style><style>[data-preview-key]{display:inline-block;min-width:1em;min-height:1em;white-space:pre-wrap;cursor:text;outline:none;border-radius:2px}.backBrand>div>[data-preview-key]{display:inline;color:inherit;font:inherit;letter-spacing:inherit}.backBrand>span>[data-preview-key]{display:inline;margin:0;font:inherit;color:inherit;letter-spacing:inherit}[data-preview-key]:hover,[data-preview-key]:focus{outline:1px dashed #2563eb;background:#dbeafe55}.photo[role=button]{cursor:pointer}.policy [data-preview-key]{display:block}@media print{[data-preview-key]{outline:none!important;background:transparent!important}}</style><style>
-.editGuide{padding:15px 16px;margin:0 0 16px;border-radius:14px;background:linear-gradient(120deg,#fff9e3,#fff);border:1px solid #e7cb68;box-shadow:0 5px 18px #1e293b0b}
-.editGuide strong{display:block;color:#26201a;font-size:14px;letter-spacing:.035em}
-.editGuide p{margin:8px 0;color:#514a39;font-size:13px;line-height:1.55}
-.guideSteps{display:flex;flex-wrap:wrap;gap:6px}
-.guideSteps span{border:1px solid #e5d49a;background:white;border-radius:50px;padding:6px 9px;font-size:11px;font-weight:700;color:#594717}
-[data-preview-key]{cursor:text}
-[data-preview-key]:hover{outline:1px dashed #be9123;outline-offset:2px}
-[data-preview-key]:focus{outline:2px solid #cfaa25;outline-offset:2px;background:#fff4b833}
-@media print{.editGuide{display:none!important}[data-preview-key]:hover,[data-preview-key]:focus{outline:none!important;background:transparent!important}}
-</style>
-</head>
-<body data-maker="id" class="admin-">
+<style>.themeAmayza{--primary:#171717;--secondary:#d4af37}.themeBlackGold{--primary:#171717;--secondary:#d4af37}.brandHelp{margin:8px 0;padding:10px 12px;background:#fff9e5;border:1px solid #ead395;border-radius:10px;font-size:12px;line-height:1.5}</style></head>
+<body class="admin-">
 <div class="accessOverlay" id="accessOverlay">
 <form class="accessCard" id="accessForm">
 <h2>AMAYZA ID MAKER ACCESS</h2>
-<p>HR-Friendly Employee ID System<br>For authorized Amayza Group staff only.</p>
+<p>HR-Friendly Food Service ID System<br>For authorized AMAYZA / D.A.Y. SCENTS staff only.</p>
 <label for="accessPassword">Enter staff password</label>
 <input id="accessPassword" type="password" autocomplete="off" placeholder="Password" autofocus>
 <button type="submit">Open ID Maker</button>
 <div class="accessError" id="accessError">Wrong password. Please ask your supervisor for the official password.</div>
-<div class="accessLegal">This ID maker is for Amayza use only and covered by company confidentiality/NDA expectations.</div>
+<div class="accessLegal">This ID maker is for AMAYZA / D.A.Y. SCENTS use only and covered by company confidentiality/NDA expectations.</div>
 </form>
 </div>
 
 <header>
-<h1>🪪 AMAYZA ID MAKER - EMPLOYEE ID</h1>
+<h1>🪪 AMAYZA ID MAKER - HR FRIENDLY</h1>
 <div class="actions">
 <span class="modeBadge" id="modeBadge">Staff Mode</span>
 <button class="secondary" id="aboutBtn">About</button>
 <button class="secondary" id="adminBtn">Admin Unlock</button>
 <button class="secondary" id="masterBtn">Master Control</button>
-<button id="printBtn">I-print Ito</button><button id="pdfBtn">Save as PDF</button><button id="jpgBtn" type="button">Download ID JPG</button>
+<button id="printBtn">I-print Ito</button><button id="pdfBtn">Save as PDF</button>
 <button class="secondary" id="saveBtn">Save File</button>
 <label class="fileLabel" for="importFile">Import File</label>
 <input id="importFile" type="file" accept="application/json" hidden>
@@ -242,7 +222,7 @@ button{background:var(--primary);color:white}button.secondary{background:#fff;co
 <main class="app">
 <section class="panel leftPanel">
 
-<div class="editGuide"><strong>AMAYZA ID DESIGNER · EDIT EVERYTHING</strong><p>Same workflow as VG Support ID Creator. Select an ID set, edit fields on the left, or click text directly on the front/back card. Click the photo to replace it. Open <b>Theme / spacing</b> for colors, typography, sizing, print layout and cutting guides.</p><div class="guideSteps"><span>① Select ID</span><span>② Edit front & back</span><span>③ Adjust design</span><span>④ Save / JPG / PDF</span></div></div><h2><span>1</span> ID set list / piliin muna ang set</h2>
+<h2><span>1</span> ID set list / piliin muna ang set</h2>
 <div class="quickBox">
 <b>Simple flow:</b> Click <b>Add New Set</b> first. It will create AMA-001 / TNP-001 / PAR-001 based on type. Click again for the next number.
 </div>
@@ -264,8 +244,8 @@ button{background:var(--primary);color:white}button.secondary{background:#fff;co
 <div class="full"><label>Employee / Partner Picture</label><input id="photoUpload" type="file" accept="image/*"><div class="hint">Picture is centered on the ID. This area glows while editing.</div></div>
 <div><label>Photo width (%)</label><input id="photoWidth" type="range" min="30" max="58" step="1" value="42"></div>
 <div><label>Photo height (%)</label><input id="photoHeight" type="range" min="24" max="46" step="1" value="34"></div>
-<div><label>Employee signature</label><input id="signatureUpload" type="file" accept="image/*"></div><div><label>Brand Logo</label><input id="amayzaLogoUpload" type="file" accept="image/*"></div>
-<div><label>Additional / Branch Logo</label><input id="schoolLogoUpload" type="file" accept="image/*"></div>
+<div><label>Amayza Logo</label><input id="amayzaLogoUpload" type="file" accept="image/*"></div>
+<div><label>School / Branch Logo</label><input id="schoolLogoUpload" type="file" accept="image/*"></div>
 <div class="full" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
 <button class="secondary" id="downloadTemplateBtn" type="button">Download ID Format Excel</button>
 <label class="fileLabel" for="idExcelUpload">Upload Filled Excel/CSV</label>
@@ -275,36 +255,36 @@ button{background:var(--primary);color:white}button.secondary{background:#fff;co
 </div>
 </div>
 
-<h2 style="margin-top:16px"><span>3</span> Edit all ID details — front & back</h2><div class="controls"><div><label for="idCompanyName">Company on ID</label><input id="idCompanyName"></div><div><label for="idHeading">ID heading</label><input id="idHeading" placeholder="EMPLOYEE ID"></div></div>
+<h2 style="margin-top:16px"><span>3</span> Edit selected ID</h2>
 <div class="quickBox" id="editingNotice">Currently editing: Live Draft</div>
 <div class="controls">
 <div><label>ID Type / Indicator</label><select id="idType"><option>Employee</option><option>Tenant Partner</option><option>Partner</option></select></div>
 <div><label>Auto ID No. / Editable</label><input id="idNo" value="AMA-001"></div>
 
 <div class="fieldCard full">
-<label>Name</label><input id="fullName" value="EMPLOYEE NAME">
+<label>Name</label><input id="fullName" value="EDMAR RIZABAL CASUNCAD">
 <div class="mini"><div><label>Name size</label><input id="nameScale" type="range" min=".70" max="1.35" step=".05" value="1"></div><div><label>Name fit</label><select id="nameCase"><option value="upper">UPPERCASE</option><option value="title">Title Case</option></select></div></div>
 </div>
 
-<div><label>Branch / Site</label><select id="branchSite"><option>AMAYZA</option><option>D.A.Y. & COLE SCENTS</option><option>AMAYZA BEVERAGES</option><option>CUSTOM</option></select></div>
+<div class="full brandHelp"><b>Brand selection:</b> Choose AMAYZA or D.A.Y. SCENTS below. This will identify the brand on your ID. Use Theme Preset for the matching colors.</div><div><label>Branch / Site</label><select id="branchSite"><option>AMAYZA</option><option>D.A.Y. SCENTS</option><option>CUSTOM</option></select></div>
 <div><label>Custom Branch/Site</label><input id="branchCustom" placeholder="Use if branch is CUSTOM"></div>
 
 <div class="fieldCard full">
-<label>Position / Role</label><input id="role" value="TEAM MEMBER">
+<label>Position / Role</label><input id="role" value="NATIONAL RETAIL HEAD">
 <div class="mini"><div><label>Role size</label><input id="roleScale" type="range" min=".70" max="1.35" step=".05" value="1"></div><div><label>Detail size</label><input id="detailScale" type="range" min=".70" max="1.35" step=".05" value="1"></div></div>
 </div>
 
-<div><label>Brand / Department</label><input id="brand" placeholder="For Tenant Partner / Partner"></div>
+<div><label>Brand / Food Operated Under Amayza</label><input id="brand" placeholder="For Tenant Partner / Partner"></div>
 <div><label>ID No. size</label><input id="idScale" type="range" min=".75" max="1.30" step=".05" value="1"></div>
 <div><label>Back long text size</label><input id="policyScale" type="range" min=".70" max="1.40" step=".05" value="1"></div>
-<div class="full"><label>Address / Assignment Area</label><textarea id="address"></textarea></div>
-<div><label>Emergency Contact Person</label><input id="emergencyName" value=""></div>
-<div><label>Emergency Contact No.</label><input id="emergencyNo" value=""></div>
-<div><label>Validity Date</label><input id="validity" value=""></div>
+<div class="full"><label>Address / Assignment Area</label><textarea id="address">181, PAJO PROJECT 2 QUEZON CITY</textarea></div>
+<div><label>Emergency Contact Person</label><input id="emergencyName" value="KYLA QUIDES"></div>
+<div><label>Emergency Contact No.</label><input id="emergencyNo" value="09318689693"></div>
+<div><label>Validity Date</label><input id="validity" value="11/30/28"></div>
 <div><label>Photo Shape</label><select id="photoShape"><option value="rounded">Rounded Rectangle</option><option value="circle">Circle</option><option value="square">Square</option></select></div>
-<div><label>SSS</label><input id="sss" value=""></div>
-<div><label>TIN</label><input id="tin" value=""></div>
-<div><label>PhilHealth</label><input id="philhealth" value=""></div>
+<div><label>SSS</label><input id="sss" value="33-3436-3533"></div>
+<div><label>TIN</label><input id="tin" value="365-950-211-0000"></div>
+<div><label>PhilHealth</label><input id="philhealth" value="01-026222243-3"></div>
 </div>
 
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px">
@@ -314,9 +294,9 @@ button{background:var(--primary);color:white}button.secondary{background:#fff;co
 </div>
 <div class="hint">To edit Set 1 or Set 2, click <b>Edit This</b> in the list. Then change the left side. Preview updates live.</div>
 
-<div class="admin-design"><h2 style="margin-top:18px"><span>4</span> Theme / spacing</h2>
+<h2 style="margin-top:18px"><span>4</span> Theme / spacing</h2>
 <div class="controls">
-<div class="full"><h2>Cutting guides & extra adjustments</h2></div><div><label><input id="showCutGuides" type="checkbox" style="width:auto" checked> Show card cutting guides</label></div><div><label><input id="showFoldGuide" type="checkbox" style="width:auto" checked> Show center fold guide</label></div><div><label>Guide color</label><input id="guideColor" type="color" value="#8b8b8b"></div><div><label>Guide thickness (mm)</label><input id="guideStroke" type="number" min=".1" max="1" step=".1" value=".2"></div><div><label>Guide offset (mm)</label><input id="guideOffset" type="number" min="0" max="2" step=".1" value="0"></div><div><label>Paper margins (mm)</label><input id="paperMargin" type="number" min="3" max="30" step=".5" value="10"></div><div><label>ID font</label><select id="idFont"><option>Arial</option><option>Verdana</option><option>Georgia</option><option>Times New Roman</option><option>Trebuchet MS</option><option>Tahoma</option></select></div><div><label>Name weight</label><select id="nameWeight"><option value="400">Regular</option><option value="600">Semi-bold</option><option value="700">Bold</option><option value="900" selected>Extra bold</option></select></div><div><label>Logo height (mm)</label><input id="logoSize" type="range" min="4" max="10" step=".5" value="8"></div><div><label>Card background</label><input id="background" type="color" value="#ffffff"></div><div class="full hint" id="idLayoutWarning" role="status"></div><div><label>Theme Preset</label><select id="theme"><option value="themePerfume">Scents • Black & Gold</option><option value="themeBeverage">Beverages • Yellow</option></select></div>
+<div><label>Theme Preset</label><select id="theme"><option value="themeAmayza">AMAYZA · Gold</option><option value="themeBlackGold">D.A.Y. SCENTS · Black & Gold</option><option value="themeClean">Clean White</option><option value="themeGreen">Fresh Green</option></select></div>
 <div><label>Main Color</label><input id="primaryColor" type="color" value="#b91c1c"></div>
 <div><label>Accent Color</label><input id="secondaryColor" type="color" value="#d99a22"></div>
 <div><label>ID width (inches)</label><input id="idWidth" type="number" step="0.001" value="2.125"></div>
@@ -333,13 +313,22 @@ button{background:var(--primary);color:white}button.secondary{background:#fff;co
 <div class="full adminLockedNotice">🔒 Staff Mode is active. HR can still make IDs; admin is only for protected system use.</div>
 </div>
 
-</div></section>
+<h2 style="margin-top:18px"><span>4</span> ID sets list</h2>
+<div class="hint">Click Set 1, Set 2, etc. to edit that exact ID. Then click <b>Update Selected Set</b>.</div>
+<div class="setButtons" id="setButtons"></div>
+<div class="tableWrap">
+<table>
+<thead><tr><th>Set</th><th>No.</th><th>Name</th><th>Type</th><th>Branch</th><th>Action</th></tr></thead>
+<tbody id="idRows"></tbody>
+</table>
+</div>
+</section>
 
 <section class="panel previewPanel">
 <div class="previewTop">
 <div>
 <h2 style="margin:0 0 4px"><span>5</span> Live printable preview</h2>
-<div class="hint"><b>DIRECT EDIT MODE:</b> Click any wording (including labels, policy and signatory text) on the front or back to type new text. Click the photo to replace it. Select a different set to edit another employee. Changes are saved locally as you work.</div>
+<div class="hint">Same VG Support ID Maker controls. Choose AMAYZA or D.A.Y. SCENTS as Branch / Site, edit the information, then preview both sides and print or save.</div>
 </div>
 <div class="scaleBox">ID size: <b id="idSizeLabel">2.125 × 3.375 in</b></div>
 </div>
@@ -356,12 +345,12 @@ button{background:var(--primary);color:white}button.secondary{background:#fff;co
 <div class="modalHead"><h2>About</h2><button class="secondary small" data-close="aboutModal">Close</button></div>
 <div class="modalBody">
 <div class="aboutGrid">
-<div><b>System</b><br>AMAYZA ID MAKER - EMPLOYEE ID</div>
+<div><b>System</b><br>AMAYZA ID MAKER - HR FRIENDLY</div>
 <div><b>Purpose</b><br>Printable front/back ID maker for Employee, Tenant Partner, and Partner.</div>
-<div><b>Created by</b><br>EMPLOYEE NAME</div>
-<div><b>Date / Role</b><br>October 2026<br>AMAYZA</div>
+<div><b>Created by</b><br>EDMAR RIZABAL CASUNCAD</div>
+<div><b>Date / Role</b><br>June 2026<br>National Retail Head of AMAYZA / D.A.Y. SCENTS</div>
 </div>
-<div class="protectionBox"><b>Amayza use only.</b><br>This system is for authorized Amayza staff only and is covered by company confidentiality/NDA expectations.</div>
+<div class="protectionBox"><b>AMAYZA / D.A.Y. SCENTS use only.</b><br>This system is for authorized Amayza staff only and is covered by company confidentiality/NDA expectations.</div>
 </div>
 </div>
 </div>
@@ -376,43 +365,38 @@ button{background:var(--primary);color:white}button.secondary{background:#fff;co
 <div><label>New admin unlock password</label><input id="newAdminPass" type="text"></div>
 <div class="full"><button id="savePasswordsBtn" type="button">Save Passwords</button></div>
 </div>
-<div class="hint">Default master password: . Password changes save only in this browser/device unless you Save File and Import File on another device.</div>
+<div class="hint">master password is configurable. Password changes save only in this browser/device unless you Save File and Import File on another device.</div>
 </div>
 </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script><script>
-const brandKey=new URLSearchParams(location.search).get('brand')==='beverage'?'beverage':'perfume';
-const brandTheme=brandKey==='perfume'?{primary:'#171717',secondary:'#d4af37',theme:'themePerfume',logo:'daycole.png'}:{primary:'#715200',secondary:'#ffd435',theme:'themeBeverage',logo:''};
-try {const prefs=JSON.parse(localStorage.getItem('amayza-brand-'+brandKey)||'null');if(prefs){brandTheme.logo=prefs.logo||brandTheme.logo;}}catch(e){}
+<script>
 const $=id=>document.getElementById(id);
-const STORAGE_KEY='amayza-id-v1-'+brandKey;
+const STORAGE_KEY='amayza-id-vg-parity-v1';
 const STAFF_DEFAULT='', ADMIN_DEFAULT='', MASTER_DEFAULT='';
 function uid(){return Math.random().toString(36).slice(2,9)}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
 function fileToDataUrl(file,cb){const r=new FileReader();r.onload=()=>cb(r.result);r.readAsDataURL(file)}
 let state={
- staffPass:STAFF_DEFAULT,adminPass:ADMIN_DEFAULT,masterPass:MASTER_DEFAULT,isAdmin:true,
- companyName:'AMAYZA',idTitle:'EMPLOYEE ID',idText:{},
- primary:brandTheme.primary,secondary:brandTheme.secondary,accent:'#ffffff',theme:brandTheme.theme,
- paperSize:'A4',orientation:'portrait',customW:215.9,customH:279.4,
- idWidth:2.125,idHeight:3.375,setsPerRow:1,cutGap:6,cardGap:3,zoom:.85,radius:12,
- showCutGuides:true,showFoldGuide:true,guideColor:'#8b8b8b',guideStroke:.2,guideOffset:0,idFont:'Arial',nameWeight:'900',logoSize:8,background:'#ffffff',paperMargin:10,photoWidth:42,photoHeight:34,nameScale:1,roleScale:1,detailScale:1,idScale:1,policyScale:1,nameCase:'upper',
- amayzaLogo:brandTheme.logo,schoolLogo:'',photo:'',
+ staffPass:STAFF_DEFAULT,adminPass:ADMIN_DEFAULT,masterPass:MASTER_DEFAULT,isAdmin:false,
+ primary:'#171717',secondary:'#d4af37',accent:'#ffffff',theme:'themeAmayza',
+ paperSize:'SHORT',orientation:'portrait',customW:215.9,customH:279.4,
+ idWidth:2.125,idHeight:3.375,setsPerRow:2,cutGap:6,cardGap:3,zoom:.85,radius:12,
+ photoWidth:42,photoHeight:34,nameScale:1,roleScale:1,detailScale:1,idScale:1,policyScale:1,nameCase:'upper',
+ amayzaLogo:'',schoolLogo:'',photo:'',
  selectedIndex:-1,
  form:{type:'Employee',no:'AMA-001',name:'EMPLOYEE NAME',role:'TEAM MEMBER',brand:'',branchSite:'AMAYZA',branchCustom:'',address:'',emergencyName:'',emergencyNo:'',validity:'',sss:'',tin:'',philhealth:'',photoShape:'rounded'},
  ids:[]
 };
-const factoryState=JSON.parse(JSON.stringify(state));
 function persist(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){}}
 function load(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(s)state={...state,...s,form:{...state.form,...(s.form||{})},ids:s.ids||state.ids};}catch(e){}}
 function prefix(type){return type==='Employee'?'AMA':type==='Tenant Partner'?'TNP':'PAR'}
 function nextNo(type){const p=prefix(type);const count=state.ids.filter(x=>String(x.no||'').startsWith(p+'-')).length+1;return p+'-'+String(count).padStart(3,'0')}
 function csvEscape(v){v=String(v??'');return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
 function downloadExcelTemplate(){
- const headers=["ID Type","ID No","Full Name","Position / Role","Brand / Department","Branch / Site","Custom Branch / Site","Address / Assignment Area","Emergency Contact Person","Emergency Contact No.","Validity Date","SSS","TIN","PhilHealth","Photo Shape"];
- const sample=["Employee","","","","","AMAYZA","","","","","","","","","Rounded Rectangle"];
+ const headers=["ID Type","ID No","Full Name","Position / Role","Brand / Food Operated Under Amayza","Branch / Site","Custom Branch / Site","Address / Assignment Area","Emergency Contact Person","Emergency Contact No.","Validity Date","SSS","TIN","PhilHealth","Photo Shape"];
+ const sample=["Employee","","","","","LPU BATANGAS","","","","","","","","","Rounded Rectangle"];
  const csv=[headers,sample].map(row=>row.map(csvEscape).join(",")).join("\n");
  const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="amayza_id_upload_format_excel.csv"; a.click(); URL.revokeObjectURL(a.href);
@@ -432,8 +416,8 @@ function importCsvRows(rows){
  rows.slice(1).forEach(row=>{
   if(!row||row.every(c=>String(c||'').trim()===''))return;
   const type=get(row,"ID Type")||"Employee";
-  const branch=get(row,"Branch / Site")||"AMAYZA ENTERPRISE";
-  const obj={type:type,no:get(row,"ID No")||nextNo(type),name:get(row,"Full Name"),role:get(row,"Position / Role"),brand:get(row,"Brand / Department"),branchSite:branch,branchCustom:get(row,"Custom Branch / Site"),address:get(row,"Address / Assignment Area"),emergencyName:get(row,"Emergency Contact Person"),emergencyNo:get(row,"Emergency Contact No."),validity:get(row,"Validity Date"),sss:get(row,"SSS"),tin:get(row,"TIN"),philhealth:get(row,"PhilHealth"),photoShape:normalizeShape(get(row,"Photo Shape")),photo:"",amayzaLogo:state.amayzaLogo,schoolLogo:state.schoolLogo,id:uid()};
+  const branch=get(row,"Branch / Site")||"AMAYZA";
+  const obj={type:type,no:get(row,"ID No")||nextNo(type),name:get(row,"Full Name"),role:get(row,"Position / Role"),brand:get(row,"Brand / Food Operated Under Amayza"),branchSite:branch,branchCustom:get(row,"Custom Branch / Site"),address:get(row,"Address / Assignment Area"),emergencyName:get(row,"Emergency Contact Person"),emergencyNo:get(row,"Emergency Contact No."),validity:get(row,"Validity Date"),sss:get(row,"SSS"),tin:get(row,"TIN"),philhealth:get(row,"PhilHealth"),photoShape:normalizeShape(get(row,"Photo Shape")),photo:"",amayzaLogo:state.amayzaLogo,schoolLogo:state.schoolLogo,id:uid()};
   if(obj.name)imported.push(obj);
  });
  if(!imported.length){toast('No valid ID rows found.');return}
@@ -445,9 +429,9 @@ function handleExcelUpload(file){
  const reader=new FileReader();reader.onload=()=>importCsvRows(parseCsv(reader.result));reader.readAsText(file);
 }
 function branchLabel(obj){return obj.branchSite==='CUSTOM'?(obj.branchCustom||'CUSTOM BRANCH'):obj.branchSite}
-function currentObj(){return {...state.form,photo:state.photo,amayzaLogo:state.amayzaLogo,schoolLogo:state.schoolLogo,signature:state.signature||'',id:uid(),_selected:true}}
+function currentObj(){return {...state.form,photo:state.photo,amayzaLogo:state.amayzaLogo,schoolLogo:state.schoolLogo,id:uid(),_selected:true}}
 function setInputs(){
- const simple={idCompanyName:'companyName',idHeading:'idTitle',primaryColor:'primary',secondaryColor:'secondary',theme:'theme',paperSize:'paperSize',orientation:'orientation',customW:'customW',customH:'customH',idWidth:'idWidth',idHeight:'idHeight',setsPerRow:'setsPerRow',cutGap:'cutGap',cardGap:'cardGap',zoom:'zoom',radius:'radius',photoWidth:'photoWidth',photoHeight:'photoHeight',nameScale:'nameScale',roleScale:'roleScale',detailScale:'detailScale',idScale:'idScale',policyScale:'policyScale',nameCase:'nameCase'};
+ const simple={primaryColor:'primary',secondaryColor:'secondary',theme:'theme',paperSize:'paperSize',orientation:'orientation',customW:'customW',customH:'customH',idWidth:'idWidth',idHeight:'idHeight',setsPerRow:'setsPerRow',cutGap:'cutGap',cardGap:'cardGap',zoom:'zoom',radius:'radius',photoWidth:'photoWidth',photoHeight:'photoHeight',nameScale:'nameScale',roleScale:'roleScale',detailScale:'detailScale',idScale:'idScale',policyScale:'policyScale',nameCase:'nameCase'};
  Object.entries(simple).forEach(([id,key])=>{if($(id))$(id).value=state[key]});
  const fm={idType:'type',idNo:'no',fullName:'name',role:'role',brand:'brand',branchSite:'branchSite',branchCustom:'branchCustom',address:'address',emergencyName:'emergencyName',emergencyNo:'emergencyNo',validity:'validity',sss:'sss',tin:'tin',philhealth:'philhealth',photoShape:'photoShape'};
  Object.entries(fm).forEach(([id,key])=>{if($(id))$(id).value=state.form[key]||''});
@@ -462,31 +446,7 @@ function paperDims(){let w=215.9,h=279.4;if(state.paperSize==='A4'){w=210;h=297}
 function applyVars(){const r=document.documentElement.style,d=paperDims();r.setProperty('--paperW',d.w+'mm');r.setProperty('--paperH',d.h+'mm');r.setProperty('--primary',state.primary);r.setProperty('--secondary',state.secondary);r.setProperty('--accent',state.accent);r.setProperty('--idW',state.idWidth+'in');r.setProperty('--idH',state.idHeight+'in');r.setProperty('--setsPerRow',state.setsPerRow);r.setProperty('--cutGap',state.cutGap+'mm');r.setProperty('--cardGap',state.cardGap+'mm');r.setProperty('--radius',state.radius+'px');r.setProperty('--photoW',state.photoWidth+'%');r.setProperty('--photoH',state.photoHeight+'%');r.setProperty('--nameScale',state.nameScale);r.setProperty('--roleScale',state.roleScale);r.setProperty('--detailScale',state.detailScale);r.setProperty('--idScale',state.idScale);r.setProperty('--policyScale',state.policyScale)}
 function renderPreview(){applyVars();const sheet=$('sheet');sheet.className='sheet '+state.theme;sheet.style.transform='scale('+state.zoom+')';const d=paperDims();sheet.style.marginBottom='calc('+d.h+'mm * '+(state.zoom-1)+' + 20px)';sheet.innerHTML='';if(!state.ids.length){const note=document.createElement('div');note.className='emptySheetNote';note.innerHTML='Click <b>Add New Set</b> first.<br>Set 1 will appear here and all controls will edit Set 1.';sheet.appendChild(note);return;}state.ids.forEach((it,idx)=>sheet.appendChild(makeSet(it,idx)))}
 function displayName(name){if(state.nameCase==='title')return String(name||'').toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());return String(name||'').toUpperCase()}
-function makeSet(it,idx){
- const set=document.createElement('div');set.className='idSet'+(idx===state.selectedIndex?' selectedSet':'');
- const editable=(key,value,label,scope='record')=>`<span contenteditable="plaintext-only" role="textbox" tabindex="0" aria-label="${esc(label)} · Set ${idx+1}" title="Click to edit ${esc(label)}" data-preview-key="${esc(key)}" data-preview-scope="${scope}">${esc(value??'')}</span>`;
- const text=(key,fallback)=>state.idText?.[key]??fallback;
- const label=(key,fallback)=>editable(key,text(key,fallback),key,'label');
- const branch=branchLabel(it),company=state.companyName??'AMAYZA';
- const policyDefault='This ID card is property of {company} and must be surrendered upon termination of employment/partnership. This card is non-transferable. Employee/partner agrees to use it according to company regulations. Lost ID must be reported immediately to {company} Management.';
- const policy=text('policy',policyDefault).replaceAll('{company}',company);
- set.innerHTML=`<div class="idCard front"><div class="frontBg"></div><div class="logoRow"><div class="logoSlot">${it.amayzaLogo?`<img src="${esc(it.amayzaLogo)}">`:editable('companyName',company,'Company name','global')}</div><div class="logoSlot">${it.schoolLogo?`<img src="${esc(it.schoolLogo)}">`:editable('branchCustom',branch,'Brand name')}</div></div><div class="typeBadge">${editable('type',it.type,'ID type')}</div><div class="photo ${esc(it.photoShape||'rounded')}" role="button" tabindex="0" aria-label="Change photo · Set ${idx+1}" title="Click to upload photo">${it.photo?`<img src="${esc(it.photo)}">`:''}</div><div class="signSpace">${it.signature?`<img src="${esc(it.signature)}" alt="Employee signature">`:''}</div><div class="nameBlock"><div class="personName">${editable('name',displayName(it.name||''),'Employee name')}</div><div class="branchUnderName">${editable('branchCustom',branch,'Brand name')}</div><div class="role">${editable('role',it.role,'Position / role')}</div>${it.type!=='Employee'?`<div class="partnerBrand">${editable('brand',it.brand,'Department')}</div>`:''}</div><div class="addressBox"><b>${label('addressLabel','Address / Assignment Area:')}</b><div class="address">${editable('address',it.address,'Address')}</div></div><div class="idNo">${label('numberLabel',it.type==='Employee'?'Employee #':'ID #')} ${editable('no',it.no,'ID number')}</div></div><div class="idCard back"><div class="backBrand"><div>${editable('companyName',company,'Company name','global')}</div><span>${editable('idTitle',state.idTitle??'EMPLOYEE ID','ID heading','global')}</span></div><div class="govNums">${label('sssLabel','SSS:')} ${editable('sss',it.sss,'SSS')}<br>${label('tinLabel','TIN:')} ${editable('tin',it.tin,'TIN')}<br>${label('philhealthLabel','PHIL HEALTH:')} ${editable('philhealth',it.philhealth,'PhilHealth')}</div><div class="emergencyTitle">${label('emergencyTitle','PERSON TO NOTIFY IN CASE OF EMERGENCY')}</div><div class="emergencyName">${editable('emergencyName',it.emergencyName,'Emergency contact name')} · ${editable('emergencyNo',it.emergencyNo,'Emergency contact number')}</div><div class="policy">${editable('policy',policy,'ID policy','label')}</div><div class="signRow"><div class="signBox"><div class="signLine"></div>${label('signatoryLabel','Authorized Signatory')}</div><div class="signBox"><div class="signLine"></div>${label('adminLabel','HR / Admin')}</div></div><div class="validity">${label('validityLabel','VALIDITY DATE:')} ${editable('validity',it.validity,'Validity date')}</div></div>`;
- set.querySelectorAll('[data-preview-key]').forEach(el=>{
-  el.addEventListener('input',()=>{
-   const key=el.dataset.previewKey,scope=el.dataset.previewScope,value=el.textContent;
-   if(scope==='global')state[key]=value;
-   else if(scope==='label'){state.idText={...state.idText,[key]:value};}
-   else {it[key]=value;if(key==='branchCustom')it.branchSite='CUSTOM';if(state.selectedIndex===idx){state.form[key]=value;if(key==='branchCustom')state.form.branchSite='CUSTOM';}}
-   setInputs();renderRows();persist();
-   const targets=scope==='record'?set:document.getElementById('sheet');
-   targets.querySelectorAll('[data-preview-key]').forEach(other=>{if(other!==el&&other.dataset.previewKey===key&&other.dataset.previewScope===scope)other.textContent=value;});
-  });
-  el.addEventListener('keydown',e=>{if(e.key==='Enter'&&el.dataset.previewKey!=='policy'&&el.dataset.previewKey!=='address'){e.preventDefault();el.blur();}});
-  el.addEventListener('blur',e=>{if(!e.relatedTarget?.closest('#sheet'))renderPreview();});
- });
- const photo=set.querySelector('.photo');const upload=()=>{if(state.selectedIndex!==idx)loadId(idx);$('photoUpload').click()};photo.onclick=upload;photo.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();upload()}};
- return set;
-}
+function makeSet(it,idx){const set=document.createElement('div');set.className='idSet'+(idx===state.selectedIndex?' selectedSet':'');const emergency=[it.emergencyName,it.emergencyNo].filter(Boolean).join(' - ');const brand=(it.type!=='Employee'&&it.brand)?`<div class="partnerBrand">${esc(it.brand)}</div>`:'';const branch=branchLabel(it);set.innerHTML=`<div class="idCard front"><div class="frontBg"></div><div class="logoRow"><div class="logoSlot">${it.amayzaLogo?`<img src="${it.amayzaLogo}">`:'AMAYZA'}</div><div class="logoSlot">${it.schoolLogo?`<img src="${it.schoolLogo}">`:esc(branch)}</div></div><div class="typeBadge">${esc(it.type)}</div><div class="photo ${esc(it.photoShape||'rounded')}">${it.photo?`<img src="${it.photo}">`:''}</div><div class="signSpace"></div><div class="nameBlock"><div class="personName">${esc(displayName(it.name||'FULL NAME'))}</div><div class="branchUnderName">${esc(branch)}</div><div class="role">${esc(it.role||'ROLE')}</div>${brand}</div><div class="addressBox"><b>Address / Assignment Area:</b><div class="address">${esc(it.address||'')}</div></div><div class="idNo">${esc((it.type==='Employee'?'Employee #':'ID #')+' '+(it.no||''))}</div></div><div class="idCard back"><div class="backBrand">${esc(it.branchSite==='D.A.Y. SCENTS'?'D.A.Y. SCENTS':'AMAYZA')}</div><div class="govNums">SSS: ${esc(it.sss||'')}<br>TIN: ${esc(it.tin||'')}<br>PHIL HEALTH: ${esc(it.philhealth||'')}</div><div class="emergencyTitle">PERSON TO NOTIFY IN CASE OF EMERGENCY</div><div class="emergencyName">${esc(emergency)}</div><div class="policy">This ID card is property of <b>${esc(it.branchSite==='D.A.Y. SCENTS'?'D.A.Y. SCENTS':'AMAYZA')}</b> and must be surrendered upon termination of employment/partnership. This card is non-transferable. Employee/partner agrees to use it according to company regulations. Lost ID must be reported immediately to the relevant brand management.</div><div class="signRow"><div class="signBox"><div class="signLine"></div>Authorized Signatory</div><div class="signBox"><div class="signLine"></div>HR / Admin</div></div><div class="validity">VALIDITY DATE: ${esc(it.validity||'')}</div></div>`;return set}
 function renderRows(){const tb=$('idRows');tb.innerHTML='';const sb=$('setButtons');if(sb){sb.innerHTML='';state.ids.forEach((it,idx)=>{const b=document.createElement('button');b.type='button';b.className='small setBtn'+(idx===state.selectedIndex?' active':'');b.textContent='Set '+(idx+1);b.onclick=()=>loadId(idx);sb.appendChild(b);});}state.ids.forEach((it,idx)=>{const tr=document.createElement('tr');tr.className=idx===state.selectedIndex?'editingRow':'';tr.innerHTML=`<td>${idx+1}</td><td>${esc(it.no)}</td><td>${esc(it.name||'')}</td><td>${esc(it.type)}</td><td><button class="small" data-load="${idx}">Edit This</button> <button class="small danger" data-del="${idx}">Remove</button></td>`;tb.appendChild(tr)});tb.querySelectorAll('[data-load]').forEach(b=>b.onclick=()=>loadId(Number(b.dataset.load)));tb.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const idx=Number(b.dataset.del);state.ids.splice(idx,1);if(state.selectedIndex===idx)state.selectedIndex=state.ids.length?Math.max(0,idx-1):-1;else if(state.selectedIndex>idx)state.selectedIndex--;if(state.selectedIndex>=0&&state.ids[state.selectedIndex])loadId(state.selectedIndex);else render();persist();})}
 function render(){setInputs();renderRows();renderPreview();applyProtection();persist()}
 function bindState(id,key,num=false){$(id).addEventListener('input',()=>{state[key]=num?Number($(id).value):$(id).value;render()})}
@@ -495,16 +455,15 @@ function syncSelected(){if(state.selectedIndex>=0&&state.ids[state.selectedIndex
 function bindForm(id,key){$(id).addEventListener('input',()=>{state.form[key]=$(id).value;if(key==='type'){state.form.no=nextNo($(id).value);$('idNo').value=state.form.no}syncSelected();renderPreview();setInputs();renderRows();persist()})}
 function addId(){state.form.no=nextNo(state.form.type);$('idNo').value=state.form.no;const obj=currentObj();obj.id=uid();state.ids.push(obj);state.selectedIndex=state.ids.length-1;loadId(state.selectedIndex);toast('Set '+state.ids.length+' added. Controls now edit Set '+state.ids.length+'.')}
 function updateId(){syncSelected();render();toast(state.selectedIndex>=0?'Set '+(state.selectedIndex+1)+' updated.':'Click Add New Set first.')}
-function loadId(idx){const it=state.ids[idx];if(!it)return;state.signature=it.signature||'';state.selectedIndex=idx;state.form={type:it.type,no:it.no,name:it.name,role:it.role,brand:it.brand||'',branchSite:it.branchSite||'AMAYZA ENTERPRISE',branchCustom:it.branchCustom||'',address:it.address||'',emergencyName:it.emergencyName||'',emergencyNo:it.emergencyNo||'',validity:it.validity||'',sss:it.sss||'',tin:it.tin||'',philhealth:it.philhealth||'',photoShape:it.photoShape||'rounded'};state.photo=it.photo||'';state.amayzaLogo=it.amayzaLogo||state.amayzaLogo;state.schoolLogo=it.schoolLogo||state.schoolLogo;render();toast('Now editing Set '+(idx+1)+'.')}
+function loadId(idx){const it=state.ids[idx];if(!it)return;state.selectedIndex=idx;state.form={type:it.type,no:it.no,name:it.name,role:it.role,brand:it.brand||'',branchSite:it.branchSite||'AMAYZA',branchCustom:it.branchCustom||'',address:it.address||'',emergencyName:it.emergencyName||'',emergencyNo:it.emergencyNo||'',validity:it.validity||'',sss:it.sss||'',tin:it.tin||'',philhealth:it.philhealth||'',photoShape:it.photoShape||'rounded'};state.photo=it.photo||'';state.amayzaLogo=it.amayzaLogo||state.amayzaLogo;state.schoolLogo=it.schoolLogo||state.schoolLogo;render();toast('Now editing Set '+(idx+1)+'.')}
 function newBlank(){state.selectedIndex=-1;state.form={type:'Employee',no:nextNo('Employee'),name:'',role:'',brand:'',branchSite:'AMAYZA',branchCustom:'',address:'',emergencyName:'',emergencyNo:'',validity:'',sss:'',tin:'',philhealth:'',photoShape:'rounded'};state.photo='';render();toast('Blank controls ready. Click Add New Set to create a set.')}
 function applyProtection(){document.body.classList.toggle('admin-locked',!state.isAdmin);$('modeBadge').textContent=state.isAdmin?'Admin Mode':'Staff Mode';$('modeBadge').classList.toggle('admin',state.isAdmin)}
 function openModal(id){$(id).classList.add('show')}function closeModal(id){$(id).classList.remove('show')}
-function init(){load();state.isAdmin=true;document.body.classList.remove('access-locked');render();
+function init(){load();render();
 $('accessForm').addEventListener('submit',e=>{e.preventDefault();if($('accessPassword').value===state.staffPass){document.body.classList.remove('access-locked');$('accessError').classList.remove('show');toast('Welcome to Amayza ID Maker.')}else $('accessError').classList.add('show')});
 $('printBtn').onclick=()=>window.print();$('pdfBtn').onclick=()=>{toast('Choose Save as PDF in the print window.');setTimeout(()=>window.print(),250)};$('aboutBtn').onclick=()=>openModal('aboutModal');$('masterBtn').onclick=()=>openModal('masterModal');document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));
 $('adminBtn').onclick=()=>{if(state.isAdmin){state.isAdmin=false;applyProtection();persist();toast('Back to Staff Mode.');return}const p=prompt('Enter admin password:');if(p===state.adminPass){state.isAdmin=true;applyProtection();persist();toast('Admin Mode unlocked.')}else if(p!==null)toast('Wrong admin password.')};
 $('savePasswordsBtn').onclick=()=>{if($('masterPasswordInput').value!==state.masterPass){toast('Wrong master password.');return}state.staffPass=$('newStaffPass').value||state.staffPass;state.adminPass=$('newAdminPass').value||state.adminPass;persist();toast('Passwords updated.');$('masterPasswordInput').value=''};
-for(const [id,key] of [['idCompanyName','companyName'],['idHeading','idTitle']])$(id).addEventListener('input',()=>{state[key]=$(id).value;renderPreview();persist()});
 const formMap={idType:'type',idNo:'no',fullName:'name',role:'role',brand:'brand',branchSite:'branchSite',branchCustom:'branchCustom',address:'address',emergencyName:'emergencyName',emergencyNo:'emergencyNo',validity:'validity',sss:'sss',tin:'tin',philhealth:'philhealth',photoShape:'photoShape'};Object.entries(formMap).forEach(([id,k])=>bindForm(id,k));
 const stateMap={theme:['theme',false],primaryColor:['primary',false],secondaryColor:['secondary',false],paperSize:['paperSize',false],orientation:['orientation',false],customW:['customW',true],customH:['customH',true],idWidth:['idWidth',true],idHeight:['idHeight',true],setsPerRow:['setsPerRow',true],cutGap:['cutGap',true],cardGap:['cardGap',true],zoom:['zoom',true],radius:['radius',true],photoWidth:['photoWidth',true],photoHeight:['photoHeight',true],nameScale:['nameScale',true],roleScale:['roleScale',true],detailScale:['detailScale',true],idScale:['idScale',true],policyScale:['policyScale',true],nameCase:['nameCase',false]};
 Object.entries(stateMap).forEach(([id,v])=>bindState(id,v[0],v[1]));
@@ -527,25 +486,9 @@ $('schoolLogoUpload').onchange=e=>{const f=e.target.files[0];if(f)fileToDataUrl(
 $('addIdBtn').onclick=addId;$('updateIdBtn').onclick=updateId;$('newBlankBtn').onclick=newBlank;$('addIdTopBtn').onclick=addId;$('newBlankTopBtn').onclick=newBlank;
 $('saveBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='amayza-hr-id-maker-file.json';a.click();URL.revokeObjectURL(a.href)};
 $('importFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const data=JSON.parse(r.result);state={...state,...data,form:{...state.form,...(data.form||{})},ids:data.ids||state.ids};render();toast('File imported.')}catch(err){toast('Invalid file.')}};r.readAsText(f)};
-
+document.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if((e.ctrlKey&&['s','u'].includes(k))||k==='f12'){e.preventDefault();toast('Protected system shortcut.')}});
 }
 init();
-for(const k of ['photoWidth','photoHeight','amayzaLogoUpload','schoolLogoUpload','photoShape','brand','branchSite','branchCustom','idScale','policyScale']){const el=$(k);if(el)el.closest('div').classList.add('preset-admin-only');}
-if(!state.ids.length)addId();
-
-
-const extraFields=['showCutGuides','showFoldGuide','guideColor','guideStroke','guideOffset','idFont','nameWeight','logoSize','background','paperMargin'];
-function applyExtras(){const root=document.documentElement.style;for(const [k,v] of Object.entries({'--idFont':state.idFont,'--nameWeight':state.nameWeight,'--cardBackground':state.background,'--paperMargin':state.paperMargin+'mm','--logoHeight':state.logoSize+'mm','--guideColor':state.guideColor,'--guideStroke':state.guideStroke+'mm'}))root.setProperty(k,v);for(const k of extraFields){const el=$(k);if(el.type==='checkbox')el.checked=!!state[k];else el.value=state[k];}const w=state.idWidth*25.4,h=state.idHeight*25.4,o=state.guideOffset,l=Math.max(0,Math.min(1.5,state.cutGap/2-o));$('sheet').querySelectorAll('.idSet').forEach(set=>{set.classList.toggle('no-fold',!state.showFoldGuide);set.querySelectorAll('.idCutGuide').forEach(el=>el.remove());if(!state.showCutGuides)return;const x=-o,y=-o,r=w+o,b=h+o,d=`M${x-l} ${y}H${x} M${x} ${y-l}V${y} M${r} ${y}H${r+l} M${r} ${y-l}V${y} M${x-l} ${b}H${x} M${x} ${b}V${b+l} M${r} ${b}H${r+l} M${r} ${b}V${b+l}`;for(const side of [0,1]){const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.classList.add('idCutGuide');svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.style.cssText=`left:${side?'calc(var(--idW) + var(--cardGap))':'0'};top:0;width:var(--idW);height:var(--idH)`;svg.innerHTML=`<path d="${d}" fill="none" stroke="${esc(state.guideColor)}" stroke-width="${state.guideStroke}"/>`;set.appendChild(svg)}});const pd=paperDims();const used=(w*2+state.cardGap)*state.setsPerRow+(state.setsPerRow-1)*state.cutGap;let warning='';if(used>pd.w-2*state.paperMargin)warning='ID sets exceed the paper width. Reduce sets per row, ID size, fold spacing or margins.';else if(h>pd.h-2*state.paperMargin)warning='ID height exceeds the printable area.';else if(state.showCutGuides&&(o+1.5>state.cardGap/2||o+1.5>state.cutGap/2))warning='Increase cut/fold spacing or reduce guide offset to keep guides apart.';$('idLayoutWarning').textContent=warning;$('printBtn').disabled=!!warning;$('pdfBtn').disabled=!!warning;let ps=$('idPrintSize');if(!ps){ps=document.createElement('style');ps.id='idPrintSize';document.head.appendChild(ps)}ps.textContent=`@page{size:${pd.w}mm ${pd.h}mm;margin:0}`;persist();}
-const baseRender=render;render=function(){baseRender();applyExtras()};
-const basePreview=renderPreview;renderPreview=function(){basePreview();applyExtras()};
-for(const k of extraFields){const el=$(k);el.addEventListener('input',()=>{let v=el.type==='checkbox'?el.checked:el.value;if(['guideStroke','guideOffset','logoSize','paperMargin'].includes(k)){v=Number(v);if(!Number.isFinite(v)||v<Number(el.min)||v>Number(el.max))return;}state[k]=v;applyExtras()});}
-applyExtras();
-
-$('theme').onchange=()=>{const p=$('theme').value==='themeBeverage'?{primary:'#715200',secondary:'#ffd435'}:{primary:'#171717',secondary:'#d4af37'};Object.assign(state,p,{theme:$('theme').value});render();};
-$('signatureUpload').onchange=e=>{if(e.target.files[0])fileToDataUrl(e.target.files[0],v=>{state.signature=v;syncSelected();render()})};
-$('jpgBtn').onclick=async()=>{const idx=state.selectedIndex>=0?state.selectedIndex:0;const target=$('sheet').children[idx];if(!state.ids.length){toast('Add an ID set first.');return;}const btn=$('jpgBtn');btn.disabled=true;btn.textContent='Preparing JPG…';try {const canvas=await html2canvas(target,{scale:3,backgroundColor:'#ffffff',onclone:doc=>{const clean=doc.createElement('style');clean.textContent='[data-preview-key]{outline:none!important;background:transparent!important}';doc.head.append(clean);const sh=doc.getElementById('sheet');sh.style.transform='none';sh.querySelectorAll('.selectedSet').forEach(el=>el.classList.remove('selectedSet'));}});const a=document.createElement('a');a.download='AMAYZA-'+state.ids[idx].no+'.jpg';a.href=canvas.toDataURL('image/jpeg',.96);a.click();}catch(e){console.error('ID JPG export failed',e);toast('Unable to export. Please use Print / Save as PDF.');}finally{btn.disabled=false;btn.textContent='Download ID JPG';}};
-if(document.modelContext?.registerTool){document.modelContext.registerTool({name:'configure_employee_id',description:'Fill the currently selected employee ID. Does not print or download.',inputSchema:{type:'object',properties:{name:{type:'string'},role:{type:'string'}},required:['name'],additionalProperties:false},execute(input){if(typeof input.name!=='string'||(input.role!==undefined&&typeof input.role!=='string'))throw new Error('Invalid employee fields');state.form.name=input.name;if(input.role!==undefined)state.form.role=input.role;syncSelected();render();return {name:state.form.name,role:state.form.role};}});}
-
 </script>
-<script src="preset-runtime.js?v=7"></script></body>
+</body>
 </html>
