@@ -262,7 +262,7 @@ body.access-locked header,body.access-locked main{
 <div><label>Auto ID No. / Editable</label><input id="idNo" value="AMA-001"></div>
 
 <div class="fieldCard full">
-<label>Name</label><input id="fullName" value="EDMAR RIZABAL CASUNCAD">
+<label>Name</label><input id="fullName" value="EMPLOYEE NAME">
 <div class="mini"><div><label>Name size</label><input id="nameScale" type="range" min=".70" max="1.35" step=".05" value="1"></div><div><label>Name fit</label><select id="nameCase"><option value="upper">UPPERCASE</option><option value="title">Title Case</option></select></div></div>
 </div>
 
@@ -270,7 +270,7 @@ body.access-locked header,body.access-locked main{
 <div><label>Custom Branch/Site</label><input id="branchCustom" placeholder="Use if branch is CUSTOM"></div>
 
 <div class="fieldCard full">
-<label>Position / Role</label><input id="role" value="NATIONAL RETAIL HEAD">
+<label>Position / Role</label><input id="role" value="TEAM MEMBER">
 <div class="mini"><div><label>Role size</label><input id="roleScale" type="range" min=".70" max="1.35" step=".05" value="1"></div><div><label>Detail size</label><input id="detailScale" type="range" min=".70" max="1.35" step=".05" value="1"></div></div>
 </div>
 
@@ -278,13 +278,13 @@ body.access-locked header,body.access-locked main{
 <div><label>ID No. size</label><input id="idScale" type="range" min=".75" max="1.30" step=".05" value="1"></div>
 <div><label>Back long text size</label><input id="policyScale" type="range" min=".70" max="1.40" step=".05" value="1"></div>
 <div class="full"><label>Address / Assignment Area</label><textarea id="address">181, PAJO PROJECT 2 QUEZON CITY</textarea></div>
-<div><label>Emergency Contact Person</label><input id="emergencyName" value="KYLA QUIDES"></div>
-<div><label>Emergency Contact No.</label><input id="emergencyNo" value="09318689693"></div>
-<div><label>Validity Date</label><input id="validity" value="11/30/28"></div>
+<div><label>Emergency Contact Person</label><input id="emergencyName" value=""></div>
+<div><label>Emergency Contact No.</label><input id="emergencyNo" value=""></div>
+<div><label>Validity Date</label><input id="validity" value=""></div>
 <div><label>Photo Shape</label><select id="photoShape"><option value="rounded">Rounded Rectangle</option><option value="circle">Circle</option><option value="square">Square</option></select></div>
-<div><label>SSS</label><input id="sss" value="33-3436-3533"></div>
-<div><label>TIN</label><input id="tin" value="365-950-211-0000"></div>
-<div><label>PhilHealth</label><input id="philhealth" value="01-026222243-3"></div>
+<div><label>SSS</label><input id="sss" value=""></div>
+<div><label>TIN</label><input id="tin" value=""></div>
+<div><label>PhilHealth</label><input id="philhealth" value=""></div>
 </div>
 
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px">
@@ -347,7 +347,7 @@ body.access-locked header,body.access-locked main{
 <div class="aboutGrid">
 <div><b>System</b><br>AMAYZA ID MAKER - HR FRIENDLY</div>
 <div><b>Purpose</b><br>Printable front/back ID maker for Employee, Tenant Partner, and Partner.</div>
-<div><b>Created by</b><br>EDMAR RIZABAL CASUNCAD</div>
+<div><b>Brand</b><br>AMAYZA / D.A.Y. SCENTS</div>
 <div><b>Date / Role</b><br>June 2026<br>National Retail Head of AMAYZA / D.A.Y. SCENTS</div>
 </div>
 <div class="protectionBox"><b>AMAYZA / D.A.Y. SCENTS use only.</b><br>This system is for authorized Amayza staff only and is covered by company confidentiality/NDA expectations.</div>
@@ -446,7 +446,7 @@ function paperDims(){let w=215.9,h=279.4;if(state.paperSize==='A4'){w=210;h=297}
 function applyVars(){const r=document.documentElement.style,d=paperDims();r.setProperty('--paperW',d.w+'mm');r.setProperty('--paperH',d.h+'mm');r.setProperty('--primary',state.primary);r.setProperty('--secondary',state.secondary);r.setProperty('--accent',state.accent);r.setProperty('--idW',state.idWidth+'in');r.setProperty('--idH',state.idHeight+'in');r.setProperty('--setsPerRow',state.setsPerRow);r.setProperty('--cutGap',state.cutGap+'mm');r.setProperty('--cardGap',state.cardGap+'mm');r.setProperty('--radius',state.radius+'px');r.setProperty('--photoW',state.photoWidth+'%');r.setProperty('--photoH',state.photoHeight+'%');r.setProperty('--nameScale',state.nameScale);r.setProperty('--roleScale',state.roleScale);r.setProperty('--detailScale',state.detailScale);r.setProperty('--idScale',state.idScale);r.setProperty('--policyScale',state.policyScale)}
 function renderPreview(){applyVars();const sheet=$('sheet');sheet.className='sheet '+state.theme;sheet.style.transform='scale('+state.zoom+')';const d=paperDims();sheet.style.marginBottom='calc('+d.h+'mm * '+(state.zoom-1)+' + 20px)';sheet.innerHTML='';if(!state.ids.length){const note=document.createElement('div');note.className='emptySheetNote';note.innerHTML='Click <b>Add New Set</b> first.<br>Set 1 will appear here and all controls will edit Set 1.';sheet.appendChild(note);return;}state.ids.forEach((it,idx)=>sheet.appendChild(makeSet(it,idx)))}
 function displayName(name){if(state.nameCase==='title')return String(name||'').toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());return String(name||'').toUpperCase()}
-function makeSet(it,idx){const set=document.createElement('div');set.className='idSet'+(idx===state.selectedIndex?' selectedSet':'');const emergency=[it.emergencyName,it.emergencyNo].filter(Boolean).join(' - ');const brand=(it.type!=='Employee'&&it.brand)?`<div class="partnerBrand">${esc(it.brand)}</div>`:'';const branch=branchLabel(it);set.innerHTML=`<div class="idCard front"><div class="frontBg"></div><div class="logoRow"><div class="logoSlot">${it.amayzaLogo?`<img src="${it.amayzaLogo}">`:'AMAYZA'}</div><div class="logoSlot">${it.schoolLogo?`<img src="${it.schoolLogo}">`:esc(branch)}</div></div><div class="typeBadge">${esc(it.type)}</div><div class="photo ${esc(it.photoShape||'rounded')}">${it.photo?`<img src="${it.photo}">`:''}</div><div class="signSpace"></div><div class="nameBlock"><div class="personName">${esc(displayName(it.name||'FULL NAME'))}</div><div class="branchUnderName">${esc(branch)}</div><div class="role">${esc(it.role||'ROLE')}</div>${brand}</div><div class="addressBox"><b>Address / Assignment Area:</b><div class="address">${esc(it.address||'')}</div></div><div class="idNo">${esc((it.type==='Employee'?'Employee #':'ID #')+' '+(it.no||''))}</div></div><div class="idCard back"><div class="backBrand">${esc(it.branchSite==='D.A.Y. SCENTS'?'D.A.Y. SCENTS':'AMAYZA')}</div><div class="govNums">SSS: ${esc(it.sss||'')}<br>TIN: ${esc(it.tin||'')}<br>PHIL HEALTH: ${esc(it.philhealth||'')}</div><div class="emergencyTitle">PERSON TO NOTIFY IN CASE OF EMERGENCY</div><div class="emergencyName">${esc(emergency)}</div><div class="policy">This ID card is property of <b>${esc(it.branchSite==='D.A.Y. SCENTS'?'D.A.Y. SCENTS':'AMAYZA')}</b> and must be surrendered upon termination of employment/partnership. This card is non-transferable. Employee/partner agrees to use it according to company regulations. Lost ID must be reported immediately to the relevant brand management.</div><div class="signRow"><div class="signBox"><div class="signLine"></div>Authorized Signatory</div><div class="signBox"><div class="signLine"></div>HR / Admin</div></div><div class="validity">VALIDITY DATE: ${esc(it.validity||'')}</div></div>`;return set}
+function makeSet(it,idx){const set=document.createElement('div');set.className='idSet'+(idx===state.selectedIndex?' selectedSet':'');const emergency=[it.emergencyName,it.emergencyNo].filter(Boolean).join(' - ');const brand=(it.type!=='Employee'&&it.brand)?`<div class="partnerBrand">${esc(it.brand)}</div>`:'';const branch=branchLabel(it);set.innerHTML=`<div class="idCard front"><div class="frontBg"></div><div class="logoRow"><div class="logoSlot">${it.amayzaLogo?`<img src="${it.amayzaLogo}">`:esc(it.branchSite==='D.A.Y. SCENTS'?'D.A.Y. SCENTS':'AMAYZA')}</div><div class="logoSlot">${it.schoolLogo?`<img src="${it.schoolLogo}">`:esc(branch)}</div></div><div class="typeBadge">${esc(it.type)}</div><div class="photo ${esc(it.photoShape||'rounded')}">${it.photo?`<img src="${it.photo}">`:''}</div><div class="signSpace"></div><div class="nameBlock"><div class="personName">${esc(displayName(it.name||'FULL NAME'))}</div><div class="branchUnderName">${esc(branch)}</div><div class="role">${esc(it.role||'ROLE')}</div>${brand}</div><div class="addressBox"><b>Address / Assignment Area:</b><div class="address">${esc(it.address||'')}</div></div><div class="idNo">${esc((it.type==='Employee'?'Employee #':'ID #')+' '+(it.no||''))}</div></div><div class="idCard back"><div class="backBrand">${esc(it.branchSite==='D.A.Y. SCENTS'?'D.A.Y. SCENTS':'AMAYZA')}</div><div class="govNums">SSS: ${esc(it.sss||'')}<br>TIN: ${esc(it.tin||'')}<br>PHIL HEALTH: ${esc(it.philhealth||'')}</div><div class="emergencyTitle">PERSON TO NOTIFY IN CASE OF EMERGENCY</div><div class="emergencyName">${esc(emergency)}</div><div class="policy">This ID card is property of <b>${esc(it.branchSite==='D.A.Y. SCENTS'?'D.A.Y. SCENTS':'AMAYZA')}</b> and must be surrendered upon termination of employment/partnership. This card is non-transferable. Employee/partner agrees to use it according to company regulations. Lost ID must be reported immediately to the relevant brand management.</div><div class="signRow"><div class="signBox"><div class="signLine"></div>Authorized Signatory</div><div class="signBox"><div class="signLine"></div>HR / Admin</div></div><div class="validity">VALIDITY DATE: ${esc(it.validity||'')}</div></div>`;return set}
 function renderRows(){const tb=$('idRows');tb.innerHTML='';const sb=$('setButtons');if(sb){sb.innerHTML='';state.ids.forEach((it,idx)=>{const b=document.createElement('button');b.type='button';b.className='small setBtn'+(idx===state.selectedIndex?' active':'');b.textContent='Set '+(idx+1);b.onclick=()=>loadId(idx);sb.appendChild(b);});}state.ids.forEach((it,idx)=>{const tr=document.createElement('tr');tr.className=idx===state.selectedIndex?'editingRow':'';tr.innerHTML=`<td>${idx+1}</td><td>${esc(it.no)}</td><td>${esc(it.name||'')}</td><td>${esc(it.type)}</td><td><button class="small" data-load="${idx}">Edit This</button> <button class="small danger" data-del="${idx}">Remove</button></td>`;tb.appendChild(tr)});tb.querySelectorAll('[data-load]').forEach(b=>b.onclick=()=>loadId(Number(b.dataset.load)));tb.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const idx=Number(b.dataset.del);state.ids.splice(idx,1);if(state.selectedIndex===idx)state.selectedIndex=state.ids.length?Math.max(0,idx-1):-1;else if(state.selectedIndex>idx)state.selectedIndex--;if(state.selectedIndex>=0&&state.ids[state.selectedIndex])loadId(state.selectedIndex);else render();persist();})}
 function render(){setInputs();renderRows();renderPreview();applyProtection();persist()}
 function bindState(id,key,num=false){$(id).addEventListener('input',()=>{state[key]=num?Number($(id).value):$(id).value;render()})}
