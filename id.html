@@ -217,7 +217,7 @@ body.access-locked header,body.access-locked main{
 .idSet .logoSlot:hover{outline:2px dashed #10b981;outline-offset:2px;border-radius:4px}
 .idSet [data-edit-field]:empty::before{content:"Click to type";opacity:.42;font-style:italic}
 @media print{.idSet [data-edit-field]:empty::before{content:""!important}.idSet .logoSlot:hover{outline:0!important}}
-</style></head>
+</style><style>.clientPresetHint{padding:13px 14px;margin:10px 0 14px;border:1px solid #dfc781;background:#fff9e4;border-radius:12px;font-size:12px;line-height:1.55;color:#51482c}.clientPresetHint b{color:#382e17}.clientPresetHint code{font-weight:700}@media print{.clientPresetHint{display:none!important}}</style></head>
 <body class="admin-">
 <div class="accessOverlay" id="accessOverlay">
 <form class="accessCard" id="accessForm">
@@ -239,9 +239,9 @@ body.access-locked header,body.access-locked main{
 <button class="secondary" id="adminBtn">Admin Unlock</button>
 <button class="secondary" id="masterBtn">Master Control</button>
 <button id="printBtn">I-print Ito</button><button id="pdfBtn">Save as PDF</button>
-<button class="secondary" id="saveBtn">Save File</button>
+<button class="secondary" id="saveBtn">Save My Work</button><button id="clientPresetBtn" type="button" title="Download the current ID layout and content as a reusable preset">Save Client Preset</button><button class="secondary" id="loadClientPresetBtn" type="button">Load Client Preset</button>
 <label class="fileLabel" for="importFile">Import File</label>
-<input id="importFile" type="file" accept="application/json" hidden>
+<input id="importFile" type="file" accept="application/json" hidden><input id="clientPresetFile" type="file" accept=".json,application/json" hidden>
 </div>
 </header>
 
@@ -249,7 +249,7 @@ body.access-locked header,body.access-locked main{
 <section class="panel leftPanel">
 
 <div class="simpleIntro"><b>🪪 Make an ID in 4 easy steps</b><p><strong>1.</strong> Pick a card on the right or click Set 1, Set 2, Set 3... below. <strong>2.</strong> Type the details. <strong>3.</strong> Choose your perfume or lemon design. <strong>4.</strong> Save or Print.</p><small>✨ The glowing card is the one you are editing. Click any name, position, ID number or other detail to type directly. Click a photo to upload.</small></div><h2><span>1</span> Choose the ID to edit</h2>
-<div class="quickBox">
+<div class="clientPresetHint"><b>Share a ready-made ID design:</b> Click <b>Save Client Preset</b>, then send the JSON file to your client. They can choose <b>Load Client Preset</b> to open exactly that layout. To make the shared web link open your preset automatically, publish the file as <code>client-preset.json</code> in the AMAYZA GitHub repository. <strong>Important:</strong> the preset includes the current names, photos and ID details if entered. Remove confidential information before publicly publishing it.</div><div class="quickBox">
 <b>Simple flow:</b> Click <b>Add New Set</b> first. It will create AMA-001 / TNP-001 / PAR-001 based on type. Click again for the next number.
 </div>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0">
@@ -419,6 +419,10 @@ let state={
 };
 function persist(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){}}
 function load(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(s)state={...state,...s,form:{...state.form,...(s.form||{})},ids:s.ids||state.ids};}catch(e){}}
+function presetSnapshot(){return {type:'AMAYZA_ID_CLIENT_PRESET',version:1,createdAt:new Date().toISOString(),state:JSON.parse(JSON.stringify(state,(k,v)=>['staffPass','adminPass','masterPass','isAdmin'].includes(k)?undefined:v))}}
+function applyClientPreset(payload){if(!payload||payload.type!=='AMAYZA_ID_CLIENT_PRESET'||!payload.state||!Array.isArray(payload.state.ids))throw Error('Invalid AMAYZA client preset');const s=payload.state;const preserved={staffPass:state.staffPass,adminPass:state.adminPass,masterPass:state.masterPass,isAdmin:state.isAdmin};state={...state,...s,form:{...state.form,...(s.form||{})},ids:s.ids,selectedIndex:s.ids.length?Math.min(Math.max(0,Number(s.selectedIndex)||0),s.ids.length-1):-1,...preserved};if(state.selectedIndex>=0){const item=state.ids[state.selectedIndex];state.form={...state.form,...item};const pal=paletteFor(item.theme||state.theme);state.theme=item.theme||state.theme;state.primary=item.primary||pal.primary;state.secondary=item.secondary||pal.secondary;state.accent=item.accent||pal.accent;state.photo=item.photo||'';state.amayzaLogo=item.amayzaLogo||'';state.schoolLogo=item.schoolLogo||'';}render();toast('Client preset loaded. You can edit everything.')}
+function exportClientPreset(){const blob=new Blob([JSON.stringify(presetSnapshot(),null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='client-preset.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),5000);toast('Client preset saved as client-preset.json')}
+async function loadPublicClientPreset(){try{const response=await fetch('client-preset.json?v='+Date.now(),{cache:'no-store'});if(!response.ok)throw Error('No published preset yet');applyClientPreset(await response.json());}catch(e){toast('No published client preset found. Use Load Client Preset to choose a JSON file.')}}
 function prefix(type){return type==='Employee'?'AMA':type==='Tenant Partner'?'TNP':'PAR'}
 function nextNo(type){const p=prefix(type);const count=state.ids.filter(x=>String(x.no||'').startsWith(p+'-')).length+1;return p+'-'+String(count).padStart(3,'0')}
 function csvEscape(v){v=String(v??'');return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
@@ -505,7 +509,7 @@ function loadId(idx){const it=state.ids[idx];if(!it)return;state.selectedIndex=i
 function newBlank(){state.selectedIndex=-1;state.form={type:'Employee',no:nextNo('Employee'),name:'',role:'',brand:'',branchSite:'AMAYZA',branchCustom:'',address:'',emergencyName:'',emergencyNo:'',validity:'',sss:'',tin:'',philhealth:'',photoShape:'rounded'};state.photo='';render();toast('Blank controls ready. Click Add New Set to create a set.')}
 function applyProtection(){document.body.classList.toggle('admin-locked',!state.isAdmin);$('modeBadge').textContent=state.isAdmin?'Admin Mode':'Staff Mode';$('modeBadge').classList.toggle('admin',state.isAdmin)}
 function openModal(id){$(id).classList.add('show')}function closeModal(id){$(id).classList.remove('show')}
-function init(){load();render();
+function init(){load();render();const params=new URLSearchParams(location.search);const restore=localStorage.getItem(STORAGE_KEY);if(params.get('preset')==='client' || (!restore && params.get('preset')!=='none')){fetch('client-preset.json?v='+Date.now(),{cache:'no-store'}).then(res=>res.ok?res.json():null).then(data=>{if(data)applyClientPreset(data)}).catch(()=>{});}
 $('accessForm').addEventListener('submit',e=>{e.preventDefault();if($('accessPassword').value===state.staffPass){document.body.classList.remove('access-locked');$('accessError').classList.remove('show');toast('Welcome to Amayza ID Maker.')}else $('accessError').classList.add('show')});
 $('printBtn').onclick=()=>window.print();$('pdfBtn').onclick=()=>{toast('Choose Save as PDF in the print window.');setTimeout(()=>window.print(),250)};$('aboutBtn').onclick=()=>openModal('aboutModal');$('masterBtn').onclick=()=>openModal('masterModal');document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));
 $('adminBtn').onclick=()=>{if(state.isAdmin){state.isAdmin=false;applyProtection();persist();toast('Back to Staff Mode.');return}const p=prompt('Enter admin password:');if(p===state.adminPass){state.isAdmin=true;applyProtection();persist();toast('Admin Mode unlocked.')}else if(p!==null)toast('Wrong admin password.')};
@@ -530,6 +534,7 @@ $('photoUpload').onchange=e=>{const f=e.target.files[0];if(f)fileToDataUrl(f,v=>
 $('amayzaLogoUpload').onchange=e=>{const f=e.target.files[0];if(f)fileToDataUrl(f,v=>{state.amayzaLogo=v;syncSelected();render();toast(state.selectedIndex>=0?'Amayza logo applied to selected set.':'Amayza logo uploaded. Click Add ID Set to use it.')})};
 $('schoolLogoUpload').onchange=e=>{const f=e.target.files[0];if(f)fileToDataUrl(f,v=>{state.schoolLogo=v;syncSelected();render();toast(state.selectedIndex>=0?'School/branch logo applied to selected set.':'School/branch logo uploaded. Click Add ID Set to use it.')})};
 $('addIdBtn').onclick=addId;$('updateIdBtn').onclick=updateId;$('newBlankBtn').onclick=newBlank;$('addIdTopBtn').onclick=addId;$('newBlankTopBtn').onclick=newBlank;
+$('clientPresetBtn').onclick=exportClientPreset;$('loadClientPresetBtn').onclick=()=>$('clientPresetFile').click();$('clientPresetFile').onchange=e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{applyClientPreset(JSON.parse(reader.result))}catch(err){toast('Not a valid AMAYZA client preset file')}};reader.readAsText(file);e.target.value=''};
 $('saveBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='amayza-hr-id-maker-file.json';a.click();URL.revokeObjectURL(a.href)};
 $('importFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const data=JSON.parse(r.result);state={...state,...data,form:{...state.form,...(data.form||{})},ids:data.ids||state.ids};render();toast('File imported.')}catch(err){toast('Invalid file.')}};r.readAsText(f)};
 document.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if((e.ctrlKey&&['s','u'].includes(k))||k==='f12'){e.preventDefault();toast('Protected system shortcut.')}});
