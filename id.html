@@ -228,6 +228,23 @@ header .actions{gap:6px}
 @media (max-width:960px){.app{grid-template-columns:1fr!important}.previewPanel{position:static}.paperStage{min-height:360px;max-height:none}}
 @media (min-width:961px) and (max-width:1200px){.app{grid-template-columns:minmax(330px,37%) minmax(0,1fr)!important}}
 @media print{.app{display:block!important;padding:0!important}.sheetViewport{display:contents!important;width:auto!important;height:auto!important}.sheetViewport .sheet{position:static!important;margin:0!important;transform:none!important;min-height:var(--paperH)!important;width:var(--paperW)!important}.paperStage{display:block!important;overflow:visible!important;min-height:0!important;padding:0!important}}
+</style><style>
+/* Adjustable desktop workspace */
+.app#editorLayout{display:grid;grid-template-columns:minmax(0,36fr) 12px minmax(0,64fr)!important;gap:0!important;align-items:start}
+#editorLayout>.leftPanel,#editorLayout>.previewPanel{min-width:0}
+#editorLayout>.leftPanel{margin-right:5px}
+#editorLayout>.previewPanel{margin-left:5px}
+.panelDivider{align-self:stretch;position:relative;min-height:calc(100vh - 130px);cursor:col-resize;touch-action:none;display:flex;justify-content:center;align-items:flex-start;padding-top:clamp(80px,25vh,240px);z-index:8;outline:none}
+.dividerGrip{display:flex;align-items:center;justify-content:center;position:sticky;top:35vh;width:11px;height:82px;border:1px solid #bdc8d4;border-radius:999px;background:#e7edf5;color:#475569;font-size:19px;font-weight:bold;letter-spacing:-4px;box-shadow:0 1px 5px #64748b33;transition:background .15s}
+.panelDivider:hover .dividerGrip,.panelDivider:focus-visible .dividerGrip,.draggingPanels .dividerGrip{background:#f9d44f;color:#473505;border-color:#d09b19}
+.dividerTooltip{position:absolute;top:calc(clamp(80px,25vh,240px) + 90px);background:#1e293b;color:#fff;font-size:10px;padding:5px 8px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none}
+.panelDivider:hover .dividerTooltip,.panelDivider:focus-visible .dividerTooltip{opacity:1}
+.draggingPanels,.draggingPanels *{cursor:col-resize!important;user-select:none!important}
+.workspaceTools{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;background:#f1f5f9;border:1px solid #cbd5e1;padding:10px 12px;border-radius:12px;font-size:12px}
+.workspaceTools span{display:flex;flex-direction:column;gap:3px}.workspaceTools small{font-size:11px;color:#475569}
+.workspaceTools button{flex:0 0 auto;padding:7px 10px;font-size:11px;box-shadow:none;border:1px solid #cbd5e1}
+@media(max-width:960px){.app#editorLayout{grid-template-columns:minmax(0,1fr)!important;gap:12px!important}.panelDivider{display:none}.workspaceTools{flex-wrap:wrap}.paperStage{min-height:330px}}
+@media print{.app#editorLayout{display:block!important;grid-template-columns:none!important;padding:0!important}.panelDivider,.workspaceTools{display:none!important}#editorLayout>.previewPanel{margin:0!important}}
 </style></head>
 <body class="admin-">
 <div class="accessOverlay" id="accessOverlay">
@@ -256,9 +273,10 @@ header .actions{gap:6px}
 </div>
 </header>
 
-<main class="app">
+<main class="app" id="editorLayout">
 <section class="panel leftPanel">
 
+<div class="workspaceTools"><span><b>Flexible Workspace</b><small>Drag the divider to resize both windows.</small></span><button type="button" id="resetPanelLayout" class="secondary">↺ Auto Balance</button></div>
 <div class="simpleIntro"><b>🪪 Make an ID in 4 easy steps</b><p><strong>1.</strong> Pick a card on the right or click Set 1, Set 2, Set 3... below. <strong>2.</strong> Type the details. <strong>3.</strong> Choose your perfume or lemon design. <strong>4.</strong> Save or Print.</p><small>✨ The glowing card is the one you are editing. Click any name, position, ID number or other detail to type directly. Click a photo to upload.</small></div><h2><span>1</span> Choose the ID to edit</h2>
 <div class="cloudShareInfo" id="cloudShareInfo" hidden><b>Saved live version</b><p>Send this link to your client. Press Save &amp; Share Live again whenever you change the design; the same link will show your updated version.</p><input id="cloudShareLink" readonly aria-label="Client share link"><button type="button" id="copyShareLink">Copy Link</button><span id="cloudShareStatus" role="status"></span></div><div class="clientPresetHint"><b>Share a ready-made ID design:</b> Click <b>Save &amp; Share Live</b> and send the link to your client. Your client sees the saved layout directly, without importing files. Click <b>Save &amp; Share Live</b> again to publish your latest edits to the same link. <strong>Important:</strong> the preset includes the current names, photos and ID details if entered. Remove confidential information before publicly publishing it.</div><div class="quickBox">
 <b>Simple flow:</b> Click <b>Add New Set</b> first. It will create AMA-001 / TNP-001 / PAR-001 based on type. Click again for the next number.
@@ -360,7 +378,7 @@ header .actions{gap:6px}
 </table>
 </div>
 </section>
-
+<div class="panelDivider" id="panelDivider" role="separator" aria-label="Resize settings and preview panels" aria-orientation="vertical" aria-valuemin="25" aria-valuemax="65" aria-valuenow="36" tabindex="0"><span class="dividerGrip" aria-hidden="true">⋮⋮</span><span class="dividerTooltip">Drag to resize</span></div>
 <section class="panel previewPanel">
 <div class="previewTop">
 <div>
@@ -552,7 +570,26 @@ function loadId(idx){const it=state.ids[idx];if(!it)return;state.selectedIndex=i
 function newBlank(){state.selectedIndex=-1;state.form={type:'Employee',no:nextNo('Employee'),name:'',role:'',brand:'',branchSite:'AMAYZA',branchCustom:'',address:'',emergencyName:'',emergencyNo:'',validity:'',sss:'',tin:'',philhealth:'',photoShape:'rounded'};state.photo='';render();toast('Blank controls ready. Click Add New Set to create a set.')}
 function applyProtection(){document.body.classList.toggle('admin-locked',!state.isAdmin);$('modeBadge').textContent=state.isAdmin?'Admin Mode':'Staff Mode';$('modeBadge').classList.toggle('admin',state.isAdmin)}
 function openModal(id){$(id).classList.add('show')}function closeModal(id){$(id).classList.remove('show')}
-function init(){window.addEventListener('resize',()=>requestAnimationFrame(fitLiveSheet));if(window.ResizeObserver){const observer=new ResizeObserver(()=>requestAnimationFrame(fitLiveSheet));observer.observe(document.querySelector('.paperStage'));}const restore=localStorage.getItem(STORAGE_KEY);load();render();const params=new URLSearchParams(location.search);if(params.has('share')){openLiveShare(params.get('share'));}if(params.get('preset')==='client' || (!restore && params.get('preset')!=='none')){fetch('client-preset.json?v='+Date.now(),{cache:'no-store'}).then(res=>res.ok?res.json():null).then(data=>{if(data)applyClientPreset(data)}).catch(()=>{});}
+const PANEL_WIDTH_KEY='amayza-id-panel-width-v1';let panelWidthPreference=null;
+try{const saved=Number(localStorage.getItem(PANEL_WIDTH_KEY));if(saved>=25&&saved<=65)panelWidthPreference=saved}catch{}
+function applyPanelWidth(){const layout=$('editorLayout'),divider=$('panelDivider');if(!layout||!divider)return;
+ if(window.matchMedia('(max-width:960px)').matches){layout.style.removeProperty('grid-template-columns');divider.setAttribute('aria-orientation','horizontal');requestAnimationFrame(fitLiveSheet);return}
+ const width=panelWidthPreference??(window.innerWidth<1200?39:36);
+ layout.style.setProperty('grid-template-columns','minmax(0,'+width+'fr) 12px minmax(0,'+(100-width)+'fr)','important');
+ divider.setAttribute('aria-orientation','vertical');divider.setAttribute('aria-valuenow',String(Math.round(width)));
+ requestAnimationFrame(fitLiveSheet);
+}
+function initResizablePanels(){const divider=$('panelDivider'),layout=$('editorLayout'),reset=$('resetPanelLayout');let dragging=false;
+ const change=(clientX)=>{const box=layout.getBoundingClientRect();const percent=Math.min(65,Math.max(25,(clientX-box.left)/box.width*100));panelWidthPreference=Math.round(percent*10)/10;applyPanelWidth()};
+ divider.addEventListener('pointerdown',e=>{if(window.matchMedia('(max-width:960px)').matches)return;dragging=true;divider.setPointerCapture(e.pointerId);document.body.classList.add('draggingPanels');e.preventDefault()});
+ divider.addEventListener('pointermove',e=>{if(dragging)change(e.clientX)});
+ const end=()=>{if(!dragging)return;dragging=false;document.body.classList.remove('draggingPanels');try{localStorage.setItem(PANEL_WIDTH_KEY,String(panelWidthPreference))}catch{}};
+ divider.addEventListener('pointerup',end);divider.addEventListener('pointercancel',end);divider.addEventListener('lostpointercapture',end);
+ divider.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','Home'].includes(e.key)){e.preventDefault();if(e.key==='Home'){panelWidthPreference=null;try{localStorage.removeItem(PANEL_WIDTH_KEY)}catch{}}else{panelWidthPreference=Math.min(65,Math.max(25,(panelWidthPreference??36)+(e.key==='ArrowRight'?3:-3)));try{localStorage.setItem(PANEL_WIDTH_KEY,String(panelWidthPreference))}catch{}}applyPanelWidth()}});
+ reset.addEventListener('click',()=>{panelWidthPreference=null;try{localStorage.removeItem(PANEL_WIDTH_KEY)}catch{}applyPanelWidth();toast('Workspace auto balanced.')});
+ window.addEventListener('resize',applyPanelWidth);applyPanelWidth();
+}
+function init(){initResizablePanels();window.addEventListener('resize',()=>requestAnimationFrame(fitLiveSheet));if(window.ResizeObserver){const observer=new ResizeObserver(()=>requestAnimationFrame(fitLiveSheet));observer.observe(document.querySelector('.paperStage'));}const restore=localStorage.getItem(STORAGE_KEY);load();render();const params=new URLSearchParams(location.search);if(params.has('share')){openLiveShare(params.get('share'));}if(params.get('preset')==='client' || (!restore && params.get('preset')!=='none')){fetch('client-preset.json?v='+Date.now(),{cache:'no-store'}).then(res=>res.ok?res.json():null).then(data=>{if(data)applyClientPreset(data)}).catch(()=>{});}
 $('accessForm').addEventListener('submit',e=>{e.preventDefault();if($('accessPassword').value===state.staffPass){document.body.classList.remove('access-locked');$('accessError').classList.remove('show');toast('Welcome to Amayza ID Maker.')}else $('accessError').classList.add('show')});
 $('printBtn').onclick=()=>window.print();$('pdfBtn').onclick=()=>{toast('Choose Save as PDF in the print window.');setTimeout(()=>window.print(),250)};$('aboutBtn').onclick=()=>openModal('aboutModal');$('masterBtn').onclick=()=>openModal('masterModal');document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));
 $('adminBtn').onclick=()=>{if(state.isAdmin){state.isAdmin=false;applyProtection();persist();toast('Back to Staff Mode.');return}const p=prompt('Enter admin password:');if(p===state.adminPass){state.isAdmin=true;applyProtection();persist();toast('Admin Mode unlocked.')}else if(p!==null)toast('Wrong admin password.')};
