@@ -478,8 +478,8 @@ function makeSet(it,idx){const set=document.createElement('div');set.className='
    el.title='Click here to edit';el.tabIndex=0;
    el.addEventListener('click',e=>{e.stopPropagation();if(state.selectedIndex!==idx){loadId(idx);const updated=$('sheet').querySelector('[data-set-index="'+idx+'"] [data-edit-field="'+el.dataset.editField+'"]');if(updated){updated.focus();const range=document.createRange();range.selectNodeContents(updated);range.collapse(false);const selection=getSelection();selection.removeAllRanges();selection.addRange(range)}}});
    el.addEventListener('input',()=>{
-     const key=el.dataset.editField, value=el.textContent.replace(/\\n/g,' ').trim();
-     if(key==='emergencyCombined'){const parts=value.split(/\\s+-\\s+/);it.emergencyName=parts.shift()||'';it.emergencyNo=parts.join(' - ');}else it[key]=value;
+     const key=el.dataset.editField, value=el.textContent.replace(/\s*\n\s*/g,' ').trim();
+     if(key==='emergencyCombined'){const parts=value.split(/\s+-\s+/);it.emergencyName=parts.shift()||'';it.emergencyNo=parts.join(' - ');}else it[key]=value;
      if(state.selectedIndex===idx){if(key==='emergencyCombined'){state.form.emergencyName=it.emergencyName;state.form.emergencyNo=it.emergencyNo;}else state.form[key]=value;setInputs();}
      renderRows();persist();
    });
