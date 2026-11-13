@@ -245,6 +245,18 @@ header .actions{gap:6px}
 .workspaceTools button{flex:0 0 auto;padding:7px 10px;font-size:11px;box-shadow:none;border:1px solid #cbd5e1}
 @media(max-width:960px){.app#editorLayout{grid-template-columns:minmax(0,1fr)!important;gap:12px!important}.panelDivider{display:none}.workspaceTools{flex-wrap:wrap}.paperStage{min-height:330px}}
 @media print{.app#editorLayout{display:block!important;grid-template-columns:none!important;padding:0!important}.panelDivider,.workspaceTools{display:none!important}#editorLayout>.previewPanel{margin:0!important}}
+</style><style>
+.tourWelcome[hidden],.tourShade[hidden],.tourBubble[hidden]{display:none!important}
+.tourWelcome{position:fixed;inset:0;z-index:3000;background:#111827aa;display:flex;align-items:center;justify-content:center;padding:20px}
+.tourWelcomeCard{width:min(490px,100%);background:#fff;border:2px solid #facc15;border-radius:22px;padding:25px;box-shadow:0 25px 85px #0005;color:#182235;font:14px Arial;line-height:1.55}
+.tourEyebrow{font-weight:900;letter-spacing:.08em;font-size:11px;color:#a07800}.tourWelcomeCard h2{font-size:23px;margin:10px 0}.tourWelcomeCard p{font-size:14px;margin:10px 0 18px}.tourWelcomeActions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.tourWelcomeActions button{padding:12px 16px}.tourWelcomeCard small{color:#64748b}
+.tourShade{position:fixed;inset:0;z-index:1998;background:#0f172a55;pointer-events:none}
+.tourSpotlight{position:relative!important;z-index:1999!important;outline:4px solid #10b981!important;outline-offset:4px!important;box-shadow:0 0 0 9px #10b98145,0 0 24px #10b98166!important;border-radius:8px}
+.tourBubble{position:fixed;z-index:2500;max-width:calc(100vw - 24px);background:white;border:2px solid #d7b23e;border-radius:18px;box-shadow:0 18px 65px #0006;padding:17px;font:13px Arial;color:#1e293b;line-height:1.55}
+.tourBubble h3{margin:7px 0 8px;font-size:17px}.tourBubble p{margin:0 0 15px;font-size:13px}.tourProgress{font-size:10px;color:#876000;font-weight:900;letter-spacing:.08em}
+.tourActions{display:flex;align-items:center;justify-content:space-between;gap:8px}.tourActionRight{display:flex;gap:7px}.tourActions button{font-size:12px;padding:9px 11px}.tourActions button:disabled{opacity:.45;cursor:default}
+@media(max-width:650px){.tourBubble{padding:13px}.tourBubble h3{font-size:15px}.tourBubble p{font-size:12px}}
+@media print{.tourWelcome,.tourBubble,.tourShade{display:none!important}.tourSpotlight{box-shadow:none!important;outline:0!important}}
 </style></head>
 <body class="admin-">
 <div class="accessOverlay" id="accessOverlay">
@@ -267,12 +279,19 @@ header .actions{gap:6px}
 <button class="secondary" id="adminBtn">Admin Unlock</button>
 <button class="secondary" id="masterBtn">Master Control</button>
 <button id="printBtn">I-print Ito</button><button id="pdfBtn">Save as PDF</button>
-<button class="secondary" id="saveBtn">Save My Work</button><button id="cloudShareBtn" type="button" title="Save current live ID design to the cloud, then share the link">Save &amp; Share Live</button><button class="secondary" id="clientPresetBtn" type="button" title="Download a backup preset">Download Backup</button><button class="secondary" id="loadClientPresetBtn" type="button">Load Client Preset</button>
+<button class="secondary" id="guideBtn" type="button">❔ How to Use · Demo</button><button class="secondary" id="saveBtn">Save My Work</button><button id="cloudShareBtn" type="button" title="Save current live ID design to the cloud, then share the link">Save &amp; Share Live</button><button class="secondary" id="clientPresetBtn" type="button" title="Download a backup preset">Download Backup</button><button class="secondary" id="loadClientPresetBtn" type="button">Load Client Preset</button>
 <label class="fileLabel" for="importFile">Import File</label>
 <input id="importFile" type="file" accept="application/json" hidden><input id="clientPresetFile" type="file" accept=".json,application/json" hidden>
 </div>
 </header>
 
+<div class="tourWelcome" id="tourWelcome" hidden role="dialog" aria-modal="true" aria-labelledby="tourWelcomeTitle">
+ <div class="tourWelcomeCard"><div class="tourEyebrow">WELCOME TO AMAYZA ID MAKER</div><h2 id="tourWelcomeTitle">Want a quick guided demo?</h2><p>We'll show you how to edit an ID using the actual buttons and live preview. Nothing will be changed or deleted during the tour.</p><div class="tourWelcomeActions"><button type="button" id="tourStart">▶ Start Demo</button><button type="button" id="tourDismiss" class="secondary">Skip for Now</button></div><small>You can replay this anytime using <b>How to Use · Demo</b> at the top.</small></div>
+</div>
+<div class="tourShade" id="tourShade" hidden></div>
+<div class="tourBubble" id="tourBubble" hidden role="dialog" aria-modal="false" aria-labelledby="tourTitle">
+ <div class="tourProgress" id="tourProgress"></div><h3 id="tourTitle"></h3><p id="tourDescription"></p><div class="tourActions"><button type="button" class="secondary" id="tourSkip">Skip Tour</button><span class="tourActionRight"><button type="button" class="secondary" id="tourBack">Back</button><button type="button" id="tourNext">Next →</button></span></div>
+</div>
 <main class="app" id="editorLayout">
 <section class="panel leftPanel">
 
@@ -589,7 +608,44 @@ function initResizablePanels(){const divider=$('panelDivider'),layout=$('editorL
  reset.addEventListener('click',()=>{panelWidthPreference=null;try{localStorage.removeItem(PANEL_WIDTH_KEY)}catch{}applyPanelWidth();toast('Workspace auto balanced.')});
  window.addEventListener('resize',applyPanelWidth);applyPanelWidth();
 }
-function init(){initResizablePanels();window.addEventListener('resize',()=>requestAnimationFrame(fitLiveSheet));if(window.ResizeObserver){const observer=new ResizeObserver(()=>requestAnimationFrame(fitLiveSheet));observer.observe(document.querySelector('.paperStage'));}const restore=localStorage.getItem(STORAGE_KEY);load();render();const params=new URLSearchParams(location.search);if(params.has('share')){openLiveShare(params.get('share'));}if(params.get('preset')==='client' || (!restore && params.get('preset')!=='none')){fetch('client-preset.json?v='+Date.now(),{cache:'no-store'}).then(res=>res.ok?res.json():null).then(data=>{if(data)applyClientPreset(data)}).catch(()=>{});}
+const TOUR_KEY='amayza-client-tour-seen-v1';
+const TOUR_STEPS=[
+ {target:'#addIdTopBtn',title:'1. Create an ID',description:'Click “Add New Set” to create a card for a person. You can add as many sets as you need.'},
+ {target:'#setButtons',title:'2. Choose the card to edit',description:'Click Set 1, Set 2, or another card. The selected card glows green. Changes go to that selected card.'},
+ {target:'#sheet',title:'3. Edit directly on the ID',description:'Click the name, role, back company name, policy, or other printed text and type. Click the photo on the card to choose an image. The tour itself will not change your ID.'},
+ {target:'#photoUpload',title:'4. Add a photo',description:'Choose a file here, or click the photo area on the live ID. You can also upload a brand logo in this section.'},
+ {target:'#fullName',title:'5. Edit with the form too',description:'You may type a name or position in the left-side fields. The active card updates to match.'},
+ {target:'#theme',title:'6. Pick a brand theme',description:'Choose from 5 D.A.Y. SCENTS perfume themes or 5 AMAYZA lemon themes. You can adjust individual colors below.'},
+ {target:'#panelDivider',alternate:'#resetPanelLayout',title:'7. Resize your workspace',description:'On a computer, drag the middle divider left or right. Use Auto Balance to restore the layout. The ID preview fits the available space.'},
+ {target:'#cloudShareBtn',title:'8. Save and send to your client',description:'After editing, click Save & Share Live. Copy the client link and send it. Saving again updates the same link. Use Print or Save as PDF for physical IDs.'}
+];
+let tourIndex=-1,tourTarget=null;
+function finishTour(){tourIndex=-1;document.getElementById('tourBubble').hidden=true;document.getElementById('tourShade').hidden=true;document.querySelectorAll('.tourSpotlight').forEach(el=>el.classList.remove('tourSpotlight'));tourTarget=null;try{localStorage.setItem(TOUR_KEY,'1')}catch{}}
+function positionTour(){if(tourIndex<0)return;const b=$('tourBubble');const node=tourTarget;const vh=window.innerHeight,vw=window.innerWidth;
+ const rect=node?.getBoundingClientRect();const w=Math.min(360,vw-24);b.style.width=w+'px';let left=12,top=12;
+ if(rect){const cx=Math.max(12,Math.min(vw-w-12,rect.left+rect.width/2-w/2));left=cx;const bubbleHeight=b.offsetHeight||220;top=rect.bottom+14;if(top+bubbleHeight>vh-8)top=rect.top-bubbleHeight-14;if(top<10)top=Math.max(10,Math.min(vh-bubbleHeight-10,(vh-bubbleHeight)/2));}
+ b.style.left=left+'px';b.style.top=top+'px';
+}
+function showTourStep(index){if(index<0){finishTour();return;}if(index>=TOUR_STEPS.length){finishTour();toast('Demo complete! You can replay it anytime.');return;}
+ tourIndex=index;const step=TOUR_STEPS[index];document.querySelectorAll('.tourSpotlight').forEach(el=>el.classList.remove('tourSpotlight'));
+ let target=document.querySelector(step.target);if(!target||getComputedStyle(target).display==='none')target=document.querySelector(step.alternate||'#sheet');
+ tourTarget=target;target?.classList.add('tourSpotlight');$('tourTitle').textContent=step.title;$('tourDescription').textContent=step.description;
+ $('tourProgress').textContent='STEP '+(index+1)+' OF '+TOUR_STEPS.length;$('tourBack').disabled=index===0;$('tourNext').textContent=index===TOUR_STEPS.length-1?'Finish ✓':'Next →';
+ $('tourShade').hidden=false;$('tourBubble').hidden=false;
+ if(target){target.scrollIntoView({block:'center',inline:'nearest',behavior:'instant'});}
+ requestAnimationFrame(()=>{requestAnimationFrame(positionTour)});
+}
+function launchTour(){document.getElementById('tourWelcome').hidden=true;showTourStep(0);}
+function setupClientGuide(){
+ $('tourStart').onclick=launchTour;$('tourDismiss').onclick=()=>{document.getElementById('tourWelcome').hidden=true;try{localStorage.setItem(TOUR_KEY,'1')}catch{}};
+ $('guideBtn').onclick=launchTour;$('tourSkip').onclick=finishTour;$('tourBack').onclick=()=>showTourStep(tourIndex-1);$('tourNext').onclick=()=>showTourStep(tourIndex+1);
+ window.addEventListener('resize',()=>{if(tourIndex>=0)requestAnimationFrame(positionTour)});
+ window.addEventListener('scroll',()=>{if(tourIndex>=0)requestAnimationFrame(positionTour)},true);
+ document.addEventListener('keydown',event=>{if(event.key==='Escape'){if(tourIndex>=0)finishTour();else $('tourWelcome').hidden=true;}});
+ const params=new URLSearchParams(location.search);let hasSeen=false;try{hasSeen=localStorage.getItem(TOUR_KEY)==='1'}catch{}
+ if(params.get('tour')==='1'){setTimeout(launchTour,600);}else if(!hasSeen){setTimeout(()=>{$('tourWelcome').hidden=false;},900)}
+}
+function init(){initResizablePanels();setupClientGuide();window.addEventListener('resize',()=>requestAnimationFrame(fitLiveSheet));if(window.ResizeObserver){const observer=new ResizeObserver(()=>requestAnimationFrame(fitLiveSheet));observer.observe(document.querySelector('.paperStage'));}const restore=localStorage.getItem(STORAGE_KEY);load();render();const params=new URLSearchParams(location.search);if(params.has('share')){openLiveShare(params.get('share'));}if(params.get('preset')==='client' || (!restore && params.get('preset')!=='none')){fetch('client-preset.json?v='+Date.now(),{cache:'no-store'}).then(res=>res.ok?res.json():null).then(data=>{if(data)applyClientPreset(data)}).catch(()=>{});}
 $('accessForm').addEventListener('submit',e=>{e.preventDefault();if($('accessPassword').value===state.staffPass){document.body.classList.remove('access-locked');$('accessError').classList.remove('show');toast('Welcome to Amayza ID Maker.')}else $('accessError').classList.add('show')});
 $('printBtn').onclick=()=>window.print();$('pdfBtn').onclick=()=>{toast('Choose Save as PDF in the print window.');setTimeout(()=>window.print(),250)};$('aboutBtn').onclick=()=>openModal('aboutModal');$('masterBtn').onclick=()=>openModal('masterModal');document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));
 $('adminBtn').onclick=()=>{if(state.isAdmin){state.isAdmin=false;applyProtection();persist();toast('Back to Staff Mode.');return}const p=prompt('Enter admin password:');if(p===state.adminPass){state.isAdmin=true;applyProtection();persist();toast('Admin Mode unlocked.')}else if(p!==null)toast('Wrong admin password.')};
